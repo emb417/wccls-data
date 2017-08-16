@@ -1,0 +1,12 @@
+{
+  "name": "wccls-data",
+  "version": "0.0.1",
+  "description": "Library data.",
+  "main": "server.js",
+  "author": "Eric B.",
+  "dependencies": {
+    "express": "latest",
+    "request": "latest",
+    "cheerio": "latest"
+  }
+}
