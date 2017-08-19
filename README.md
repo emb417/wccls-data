@@ -1,6 +1,12 @@
 # wccls-data
 
-Collecting availability data from [Washington County Cooperative Library Services Catalog](https://catalog.wccls.org/) for titles based on keyword search and branch ids.
+Collecting "Not Holdable" availability data from [Washington County Cooperative Library Services Catalog](https://catalog.wccls.org/) for titles based on keyword search and branch ids.
+
+Request:
+* curl localhost:3000/keyword/ghost%20in%20the%20shell/branch/9
+
+Response:
+* {"title":"Ghost in the shell [videorecording (Blu-ray + DVD)]","branch":"Beaverton City Library","items":["Out (Due: 8/22/2017)"]}
 
 ## Dev Setup
 
