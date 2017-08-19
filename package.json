@@ -1,12 +1,21 @@
 {
   "name": "wccls-data",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library data.",
-  "main": "server.js",
   "author": "Eric B.",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "start": "DEBUG=express:* nodemon --watch scraper --watch parser --watch lambda.js --watch devserver.js devserver.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "express": "latest",
-    "request": "latest",
-    "cheerio": "latest"
+    "axios": "^0.16.1",
+    "cheerio": "^0.22.0"
+  },
+  "devDependencies": {
+    "body-parser": "1.15.1 ",
+    "express": "4.13.4",
+    "nodemon": "^1.11.0"
   }
 }
