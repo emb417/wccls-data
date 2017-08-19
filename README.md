@@ -7,6 +7,7 @@ Request:
 
 Response:
 * {"title":"Ghost in the shell [videorecording (Blu-ray + DVD)]","branch":"Beaverton City Library","items":["Out (Due: 8/22/2017)"]}
+ * note: items will be empty if branch doesn't have "Not Holdable" copies
 
 ## Dev Setup
 
