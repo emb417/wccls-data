@@ -36,14 +36,13 @@ exports.scrape = (context, callback) => {
       // build array from concurrent requests per item and branch combo
       let promiseArray = availabilityUrls(response).map(url => {
         console.log('++++',url);
-        axios.get(url);
+        return axios.get(url);
       });
       // once all concurrent requests are complete, parse results per response
       axios.all(promiseArray)
       .then(function(results) {
         let availability = [];
         results.map((r) => {
-          console.log('++++',r);
           if(typeof r != "undefined"){
             availability.push(parser.getAvailability(r.data));
           }
