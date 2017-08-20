@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "cheerio": "^0.22.0"
+    "cheerio": "^0.22.0",
+    "morgan": "^1.8.2"
   },
   "devDependencies": {
     "body-parser": "1.15.1 ",

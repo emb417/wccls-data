@@ -79,6 +79,9 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 
 Basic dev server runs on start; using nodemon to reload the express server as you work on your app.
 
+# Automation
+start.sh, scrape.sh, and com.wccls.Availability.plist are included to help setup automation.  I used Automator to create an application using start.sh contents, then added the app to my user login apps.  I used LaunchControl to setup the plist that runs scrape.sh every 15 minutes.
+
 # Appendix
 
 Availability:

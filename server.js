@@ -1,13 +1,14 @@
 const express = require('express');
+const morgan = require('morgan')
 const http = require('http');
 const bodyParser = require('body-parser');
 const lambda = require('./app/lambda');
 
 const app = express();
+app.use(morgan('combined'));
 
 // invoke pretty print
 app.set('json spaces', 2);
-
 app.use(bodyParser.json());
 
 app.get('/keyword/:keyword', function(req, res) {

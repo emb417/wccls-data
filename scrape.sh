@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-curl http://127.0.0.1:1337/\?size\=5\&keyword\=ghost%20in%20the%20shell -o logs/ghost%20in%20the%20shell.json
+KEYWORDS=('ghost%20in%20the%20shell' 'logan')
 
-curl http://127.0.0.1:1337/\?size\=5\&keyword\=logan -o logs/logan.json
+for k in ${KEYWORDS[@]}; do
+  curl http://127.0.0.1:1337/\?size\=10\&keyword\=${k} -o /Users/eric/github/wccls-data/logs/${k}.json
+done
+exit 0
