@@ -43,17 +43,10 @@ exports.scrape = (context, callback) => {
       .then(function(results) {
         let availability = [];
         results.map((r) => {
-          if(typeof r != "undefined"){
-            availability.push(parser.getAvailability(r.data));
-          }
-          return;
-          /**
-          //discard results that are not 'not holdable'
-
+          //discard results that have no items
           if(parser.getAvailability(r.data).items.length>0){
             availability.push(parser.getAvailability(r.data));
-          } else { availability = "No Results"; }
-        **/
+          }
         });
         return callback(null, availability);
       });

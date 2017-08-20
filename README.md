@@ -5,7 +5,7 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 ## Example Usage
 
 ### Request:
-* curl http://127.0.0.1:1337/\?keyword\=logan\&size\=5\&branch\=9
+* curl http://127.0.0.1:1337/\?size\=5\&branch\=9\&keyword\=ghost%20in%20the%20shell
 
 #### Keyword
 * terms or keywords used to search for titles
@@ -25,55 +25,33 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 ```javascript
 [
   {
-    "title": "Logan [videorecording (Blu-ray + DVD)]",
+    "title": "Ghost in the shell [videorecording (Blu-ray + DVD)]",
     "branch": "Beaverton City Library",
     "items": [
-      "Out (Due: 8/23/2017)"
+      "Out (Due: 8/22/2017) -- Not Holdable",
+      "Held",
+      "Transferred",
+      "Out (Due: 8/25/2017)"
     ]
   },
   {
-    "title": "Logan [videorecording (Blu-ray + DVD)]",
-    "branch": "Beaverton Murray Scholls",
-    "items": [
-      "Out (Due: 8/22/2017)"
-    ]
-  },
-  {
-    "title": "Logan [videorecording (Blu-ray + DVD)]",
-    "branch": "Cedar Mill Bethany Branch Library",
-    "items": [
-      "Out (Due: 8/26/2017)"
-    ]
-  },
-  {
-    "title": "Logan [videorecording (Blu-ray + DVD)]",
-    "branch": "Cedar Mill Community Library",
-    "items": [
-      "Out (Due: 8/24/2017)"
-    ]
-  },
-  {
-    "title": "Logan [videorecording (DVD)]",
+    "title": "Ghost in the shell [videorecording (DVD)]",
     "branch": "Beaverton City Library",
     "items": [
-      "Out (Due: 8/22/2017)"
+      "Out (Due: 8/22/2017) -- Not Holdable",
+      "Out (Due: 8/25/2017)",
+      "Out (Due: 8/22/2017)",
+      "Held"
     ]
   },
   {
-    "title": "Logan [videorecording (DVD)]",
-    "branch": "Cedar Mill Bethany Branch Library",
+    "title": "Ghost in the shell. S.A.C. 2nd gig [videorecording (DVD)] : [season two]",
+    "branch": "Beaverton City Library",
     "items": [
-      "Out (Due: 8/22/2017)"
-    ]
-  },
-  {
-    "title": "Logan [videorecording (DVD)]",
-    "branch": "Cedar Mill Community Library",
-    "items": [
-      "Out (Due: 8/22/2017)"
+      "Out (Due: 9/8/2017)"
     ]
   }
-]%
+]
 ```
 
 ### Routing Examples
