@@ -56,19 +56,19 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 
 ### Routing Examples
 * support for routing
-  * localhost:1337/keyword/:keyword/size/:size/branch/:branch
+  * http://127.0.0.1:1337/keyword/:keyword/size/:size/branch/:branch
 * To request available at all branches
-  * curl localhost:3000/keyword/wargames
-  * curl localhost:3000/keyword/logan
+  * curl http://127.0.0.1:1337/keyword/wargames
+  * curl http://127.0.0.1:1337/keyword/logan
 * To request availability at all branches using search results size limits
-  * curl localhost:3000/keyword/wargames/size/50
-  * curl localhost:3000/keyword/wargames/size/10
+  * curl http://127.0.0.1:1337/keyword/wargames/size/50
+  * curl http://127.0.0.1:1337/keyword/wargames/size/10
 * To request availability for a specific branch
-  * curl localhost:3000/keyword/wargames/branch/20
-  * curl localhost:3000/keyword/wargames/branch/9
+  * curl http://127.0.0.1:1337/keyword/wargames/branch/20
+  * curl http://127.0.0.1:1337/keyword/wargames/branch/9
 * To request availability for a specific branch using search results size limits
-  * curl localhost:3000/keyword/wargames/size/10/branch/20
-  * curl localhost:3000/keyword/wargames/size/10/branch/9
+  * curl http://127.0.0.1:1337/keyword/wargames/size/10/branch/20
+  * curl http://127.0.0.1:1337/keyword/wargames/size/10/branch/9
 
 
 ## Dev Setup
