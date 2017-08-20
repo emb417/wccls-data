@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const url = require('url');
+const querystring = require('querystring');
 const lambda = require('./lambda');
 const app = express();
 
+app.set('json spaces', 2);
 app.use(bodyParser.json());
 
 app.get('/keyword/:keyword', function(req, res) {
@@ -33,7 +36,9 @@ app.get('/keyword/:keyword/size/:size/branch/:branchId', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-  lambda.handler(req.body, req.query, function(err, result) {
+  const parsedUrl = url.parse(req.url);
+  console.log(parsedUrl);
+  lambda.handler(req.body, querystring.parse(parsedUrl.query), function(err, result) {
     if (err) {
       return res.send(err);
     }
