@@ -5,31 +5,93 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 ## Example Usage
 
 ### Request:
-* curl localhost:3000/keyword/logan
+* curl http://127.0.0.1:1337/\?keyword\=logan\&size\=5\&branch\=9
 
-### Response:
-```javascript
-[{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Beaverton City Library","items":["Out (Due: 8/23/2017)"]},{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Beaverton Murray Scholls","items":["Out (Due: 8/22/2017)"]},{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Cedar Mill Bethany Branch Library","items":["Out (Due: 8/26/2017)"]},{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Cedar Mill Community Library","items":["Out (Due: 8/24/2017)"]},{"title":"Logan [videorecording (DVD)]","branch":"Beaverton City Library","items":["Out (Due: 8/22/2017)"]},{"title":"Logan [videorecording (DVD)]","branch":"Cedar Mill Bethany Branch Library","items":["Out (Due: 8/22/2017)"]},{"title":"Logan [videorecording (DVD)]","branch":"Cedar Mill Community Library","items":["Out (Due: 8/22/2017)"]}]
-```
+#### Keyword
+* terms or keywords used to search for titles
 
-### Other Request Examples
-* To request available at all branches
-  * curl localhost:3000/keyword/wargames
-  * curl localhost:3000/keyword/logan
-  * curl localhost:3000/keyword/ghost%20in%20the%20shell
-* To request availability only for a specific branch
-  * curl localhost:3000/keyword/wargames/branch/20
-  * curl localhost:3000/keyword/wargames/branch/9
-* Or you can request via query params (WIP to support size and branch)
-  * curl localhost:3000/?keyword=logan
+#### Size
+* search results size limit, bigger number means matching against more titles and longer to return results
 
-### Branch IDs
+#### Branch IDs
 * 9: Beaverton City Library
 * 39: Beaverton Murray Scholls
 * 34: Cedar Mills Bethany Branch
 * 11: Cedar Mills Community Library
 * 20: Hillsboro Brookwood
 * 19: Hillsboro Shute Park
+
+### Response:
+```javascript
+[
+  {
+    "title": "Logan [videorecording (Blu-ray + DVD)]",
+    "branch": "Beaverton City Library",
+    "items": [
+      "Out (Due: 8/23/2017)"
+    ]
+  },
+  {
+    "title": "Logan [videorecording (Blu-ray + DVD)]",
+    "branch": "Beaverton Murray Scholls",
+    "items": [
+      "Out (Due: 8/22/2017)"
+    ]
+  },
+  {
+    "title": "Logan [videorecording (Blu-ray + DVD)]",
+    "branch": "Cedar Mill Bethany Branch Library",
+    "items": [
+      "Out (Due: 8/26/2017)"
+    ]
+  },
+  {
+    "title": "Logan [videorecording (Blu-ray + DVD)]",
+    "branch": "Cedar Mill Community Library",
+    "items": [
+      "Out (Due: 8/24/2017)"
+    ]
+  },
+  {
+    "title": "Logan [videorecording (DVD)]",
+    "branch": "Beaverton City Library",
+    "items": [
+      "Out (Due: 8/22/2017)"
+    ]
+  },
+  {
+    "title": "Logan [videorecording (DVD)]",
+    "branch": "Cedar Mill Bethany Branch Library",
+    "items": [
+      "Out (Due: 8/22/2017)"
+    ]
+  },
+  {
+    "title": "Logan [videorecording (DVD)]",
+    "branch": "Cedar Mill Community Library",
+    "items": [
+      "Out (Due: 8/22/2017)"
+    ]
+  }
+]%
+```
+
+### Routing Examples
+* support for routing
+  * localhost:1337/keyword/:keyword/size/:size/branch/:branch
+* To request available at all branches
+  * curl localhost:3000/keyword/wargames
+  * curl localhost:3000/keyword/logan
+* To request availability at all branches using search results size limits
+  * curl localhost:3000/keyword/wargames/size/50
+  * curl localhost:3000/keyword/wargames/size/10
+* To request availability for a specific branch
+  * curl localhost:3000/keyword/wargames/branch/20
+  * curl localhost:3000/keyword/wargames/branch/9
+* To request availability for a specific branch using search results size limits
+  * curl localhost:3000/keyword/wargames/size/10/branch/20
+  * curl localhost:3000/keyword/wargames/size/10/branch/9
+
 
 ## Dev Setup
 
