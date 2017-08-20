@@ -28,11 +28,18 @@ exports.scrape = (context, callback) => {
   //search by keyword to get top hits (ids)
   axios.get(resultsUrl)
     .then((response) => {
-      //get availability for responses item id
-      return axios.get(availabilityUrls(response)[0]);
-    })
-    .then((response) => {
-      return callback(null, parser.getAvailability(response.data));
+      //return axios.get(availabilityUrls(response)[0]);
+      let promiseArray = availabilityUrls(response).map(url => axios.get(url));
+      axios.all(promiseArray)
+      .then(function(results) {
+        let availability = [];
+        results.map((r) => {
+          if(parser.getAvailability(r.data).items.length>0){
+            availability.push(parser.getAvailability(r.data));
+          }
+        });
+        return callback(null, availability);
+      });
     })
     .catch(function (error) {
       callback(true, error);
