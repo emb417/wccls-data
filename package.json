@@ -4,9 +4,9 @@
   "description": "Library data.",
   "author": "Eric B.",
   "license": "ISC",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon --watch app --watch server.js server.js",
+    "start": "nodemon --watch app server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
