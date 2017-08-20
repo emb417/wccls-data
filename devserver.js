@@ -5,6 +5,15 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/keyword/:keyword', function(req, res) {
+  lambda.handler(req.body, req.params, function(err, result) {
+    if (err) {
+      return res.send(err);
+    }
+    res.send(result);
+  });
+});
+
 app.get('/keyword/:keyword/branch/:branchId', function(req, res) {
   lambda.handler(req.body, req.params, function(err, result) {
     if (err) {
