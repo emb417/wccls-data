@@ -3,7 +3,7 @@ const parser = require('./parser');
 const config = require('./config');
 
 exports.scrape = (context, callback) => {
-  console.log("+", context);
+  console.log("+", new Date(), context);
   // construct initial url
   const resultsUrl = `${ config.baseUrl }/Results/?ls=1.${ context.size || config.size }.0.&t=${ context.keyword }`;
 
@@ -30,12 +30,10 @@ exports.scrape = (context, callback) => {
   };
 
   //search by keyword to get ids
-  console.log("++",resultsUrl);
   axios.get(resultsUrl)
     .then((response) => {
       // build array from concurrent requests per item and branch combo
       let promiseArray = availabilityUrls(response).map(url => {
-        console.log('++++',url);
         return axios.get(url);
       });
       // once all concurrent requests are complete, parse results per response

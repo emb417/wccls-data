@@ -56,5 +56,5 @@ app.get('/', function(req, res) {
 });
 
 http.createServer(app).listen(1337, function() {
-  console.log('listening...');
+  console.log('+', new Date(), 'listening...');
 });
