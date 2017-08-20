@@ -7,5 +7,6 @@ module.exports = Object.assign({
     11, //Cedar Mills Community Library
     20, //Hillsboro Brookwood
     19 //Hillsboro Shute Park
-  ]
+  ],
+  "size": 10 //number of results returned (about 0.5 secs per, i.e. 10 takes 5 secs)
 });

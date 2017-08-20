@@ -2,12 +2,34 @@
 
 Collecting "Not Holdable" availability data from [Washington County Cooperative Library Services Catalog](https://catalog.wccls.org/) for titles based on keyword search and branch ids.
 
-Request:
-* curl localhost:3000/keyword/ghost%20in%20the%20shell/branch/9
+## Example Usage
 
-Response:
-* {"title":"Ghost in the shell [videorecording (Blu-ray + DVD)]","branch":"Beaverton City Library","items":["Out (Due: 8/22/2017)"]}
- * note: items will be empty if branch doesn't have "Not Holdable" copies
+### Request:
+* curl localhost:3000/keyword/logan
+
+### Response:
+```javascript
+[{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Beaverton City Library","items":["Out (Due: 8/23/2017)"]},{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Beaverton Murray Scholls","items":["Out (Due: 8/22/2017)"]},{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Cedar Mill Bethany Branch Library","items":["Out (Due: 8/26/2017)"]},{"title":"Logan [videorecording (Blu-ray + DVD)]","branch":"Cedar Mill Community Library","items":["Out (Due: 8/24/2017)"]},{"title":"Logan [videorecording (DVD)]","branch":"Beaverton City Library","items":["Out (Due: 8/22/2017)"]},{"title":"Logan [videorecording (DVD)]","branch":"Cedar Mill Bethany Branch Library","items":["Out (Due: 8/22/2017)"]},{"title":"Logan [videorecording (DVD)]","branch":"Cedar Mill Community Library","items":["Out (Due: 8/22/2017)"]}]
+```
+
+### Other Request Examples
+* To request available at all branches
+  * curl localhost:3000/keyword/wargames
+  * curl localhost:3000/keyword/logan
+  * curl localhost:3000/keyword/ghost%20in%20the%20shell
+* To request availability only for a specific branch
+  * curl localhost:3000/keyword/wargames/branch/20
+  * curl localhost:3000/keyword/wargames/branch/9
+* Or you can request via query params (WIP to support size and branch)
+  * curl localhost:3000/?keyword=logan
+
+### Branch IDs
+* 9: Beaverton City Library
+* 39: Beaverton Murray Scholls
+* 34: Cedar Mills Bethany Branch
+* 11: Cedar Mills Community Library
+* 20: Hillsboro Brookwood
+* 19: Hillsboro Shute Park
 
 ## Dev Setup
 
@@ -16,20 +38,6 @@ Response:
 1. npm start
 
 Basic dev server runs on start; using nodemon to reload the express server as you work on your app.
-
-### Example Usage
-* curl localhost:3000/keyword/wargames/branch/20
-* curl localhost:3000/keyword/wargames/branch/9
-* curl localhost:3000/keyword/ghost%20in%20the%20shell/branch/20
-
-### Branch IDs
-* 1: All WCCLS (parsing doesn't work currently)
-* 9: Beaverton City Library
-* 39: Beaverton Murray Scholls
-* 34: Cedar Mills Bethany Branch
-* 11: Cedar Mills Community Library
-* 20: Hillsboro Brookwood
-* 19: Hillsboro Shute Park
 
 # Appendix
 
