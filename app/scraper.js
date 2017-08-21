@@ -18,8 +18,7 @@ exports.scrape = (context, callback) => {
     const urls = [];
     // use branchId if supplied in context otherwise use config to search all
     const branchIds = (typeof context.branch != "undefined" ) ?
-      [ ...context.branch ] : [ ...config.branchIds ];
-
+      [ context.branch ] : [ ...config.branchIds ];
     // construct urls for all items and branches combos
     for( const itemId of getItemIds(response)){
       for( const branchId of branchIds ){
