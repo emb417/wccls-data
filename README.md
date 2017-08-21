@@ -5,7 +5,7 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 ## Example Usage
 
 ### Request:
-* curl http://127.0.0.1:1337/\?size\=5\&branch\=9\&keyword\=ghost%20in%20the%20shell
+* curl http://127.0.0.1:1337/\?size\=5\&branch\=9\&filter\=In\&keyword\=ghost%20in%20the%20shell
 
 #### Keyword
 * terms or keywords used to search for titles
@@ -20,6 +20,19 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 * 11: Cedar Mills Community Library
 * 20: Hillsboro Brookwood
 * 19: Hillsboro Shute Park
+
+#### Filters
+* In
+* Out (does't work yet)
+* Lost
+* Missing
+* Transferred
+* In-Transit
+* Held
+* -- Not Holdable (doesn't work yet)
+* On-Order
+* In-Repair
+* Unavailable
 
 ### Response:
 ```javascript
@@ -54,33 +67,16 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
 ]
 ```
 
-### Routing Examples
-* support for routing
-  * http://127.0.0.1:1337/keyword/:keyword/size/:size/branch/:branch
-* To request available at all branches
-  * curl http://127.0.0.1:1337/keyword/wargames
-  * curl http://127.0.0.1:1337/keyword/logan
-* To request availability at all branches using search results size limits
-  * curl http://127.0.0.1:1337/keyword/wargames/size/50
-  * curl http://127.0.0.1:1337/keyword/wargames/size/10
-* To request availability for a specific branch
-  * curl http://127.0.0.1:1337/keyword/wargames/branch/20
-  * curl http://127.0.0.1:1337/keyword/wargames/branch/9
-* To request availability for a specific branch using search results size limits
-  * curl http://127.0.0.1:1337/keyword/wargames/size/10/branch/20
-  * curl http://127.0.0.1:1337/keyword/wargames/size/10/branch/9
-
-
 ## Dev Setup
 
 1. git clone
 1. npm i
 1. npm start
 
-Basic dev server runs on start; using nodemon to reload the express server as you work on your app.
+Basic dev server runs on start; using nodemon to reload the express server as you work on your app.  Http server logs to logs/access.log.  Responses output to data/files.json
 
 # Automation
-start.sh, scrape.sh, and com.wccls.Availability.plist are included to help setup automation.  I used Automator to create an application using start.sh contents, then added the app to my user login apps.  I used LaunchControl to setup the plist that runs scrape.sh every 15 minutes.
+start.sh, scrape.sh, com.wccls.Server.plist and com.wccls.Scrape.plist are included to help setup automation.  I used Automator to create an application using start.sh contents, then added the app to my user login apps.  I used LaunchControl to setup the plists that runs every 15 minutes.
 
 # Appendix
 

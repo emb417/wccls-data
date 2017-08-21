@@ -11,48 +11,11 @@ const app = express();
 app.set('json spaces', 2);
 
 // create a write stream (in append mode)
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+const accessLogStream = fs.createWriteStream(path.join(__dirname, '/logs/access.log'), {flags: 'a'})
 
 // express middleware
 app.use(morgan('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
-
-// express routes
-app.get('/keyword/:keyword', function(req, res) {
-  lambda.handler(req.body, req.params, function(err, result) {
-    if (err) {
-      return res.send(err);
-    }
-    res.send(result);
-  });
-});
-
-app.get('/keyword/:keyword/size/:size', function(req, res) {
-  lambda.handler(req.body, req.params, function(err, result) {
-    if (err) {
-      return res.send(err);
-    }
-    res.send(result);
-  });
-});
-
-app.get('/keyword/:keyword/branch/:branchId', function(req, res) {
-  lambda.handler(req.body, req.params, function(err, result) {
-    if (err) {
-      return res.send(err);
-    }
-    res.send(result);
-  });
-});
-
-app.get('/keyword/:keyword/size/:size/branch/:branchId', function(req, res) {
-  lambda.handler(req.body, req.params, function(err, result) {
-    if (err) {
-      return res.send(err);
-    }
-    res.send(result);
-  });
-});
 
 app.get('/', function(req, res) {
   lambda.handler(req.body, req.query, function(err, result) {
