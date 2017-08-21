@@ -2,11 +2,11 @@
 
 const axios = require('axios');
 const parser = require('./parser');
-const config = require('./config');
 
 exports.scrape = (context, callback) => {
+  const baseUrl = "https://catalog.wccls.org/Mobile/Search";
   // construct initial url
-  const resultsUrl = `${ config.baseUrl }/Results/?ls=1.${ context.size || config.size }.0.&t=${ context.keyword }`;
+  const resultsUrl = `${ baseUrl }/Results/?ls=1.${ context.size || '10' }.0.&t=${ context.keyword }`;
 
   // return item ids parsed from search results response data
   const getItemIds = (response) => {
@@ -16,13 +16,20 @@ exports.scrape = (context, callback) => {
   // return urls to crawl for availability data
   const availabilityUrls = (response) => {
     const urls = [];
-    // use branchId if supplied in context otherwise use config to search all
+    // use branchId if supplied in context otherwise search all
     const branchIds = (typeof context.branch != "undefined" ) ?
-      [ context.branch ] : [ ...config.branchIds ];
+      [ context.branch ] : [ ...[
+                              9, //Beaverton City Library
+                              39, //Beaverton Murray Scholls
+                              34, //Cedar Mills Bethany Branch
+                              11, //Cedar Mills Community Library
+                              20, //Hillsboro Brookwood
+                              19 //Hillsboro Shute Park
+                            ] ];
     // construct urls for all items and branches combos
     for( const itemId of getItemIds(response)){
       for( const branchId of branchIds ){
-        urls.push(`${ config.baseUrl }/Items/1.${ itemId }.1.${ branchId }.1`);
+        urls.push(`${ baseUrl }/Items/1.${ itemId }.1.${ branchId }.1`);
       };
     }
 
@@ -39,14 +46,17 @@ exports.scrape = (context, callback) => {
       // once all concurrent requests are complete, parse results per response
       axios.all(promiseArray)
       .then(function(results) {
-        let availability = [];
+        let filteredAvailability = [];
+
         results.map((r) => {
+          const availability = parser.getAvailability(r.data, context);
           //discard results that have no items
-          if(parser.getAvailability(r.data).items.length>0){
-            availability.push(parser.getAvailability(r.data));
+          if(availability.items.length>0){
+            filteredAvailability.push(availability);
           }
         });
-        return callback(null, availability);
+
+        return callback(null, filteredAvailability);
       });
     })
     .catch(function (error) {

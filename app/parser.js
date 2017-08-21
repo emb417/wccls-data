@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 
-exports.getAvailability = (response) => {
+exports.getAvailability = (response, context) => {
     const $ = cheerio.load(response);
     const obj = {};
     obj.title = $('#main b').text();
@@ -10,7 +10,11 @@ exports.getAvailability = (response) => {
       const cleanItemText = findItemText.substr(findItemText.lastIndexOf(" - ")+3);
       const formattedAvailability = /\-\ Not\ Holdable\ \-/.test(findItemText) ?
         `${ cleanItemText } -- Not Holdable` : cleanItemText;
-      return formattedAvailability;
+      if(!context.filter){return formattedAvailability;}
+      else if(context.filter && context.filter === formattedAvailability){
+        return formattedAvailability;
+      }
+      return;
     }).get();
 
     return obj;
