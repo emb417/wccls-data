@@ -11,7 +11,7 @@ exports.getAvailability = (response, context) => {
       const formattedAvailability = /\-\ Not\ Holdable\ \-/.test(findItemText) ?
         `${ cleanItemText } -- Not Holdable` : cleanItemText;
       if(!context.filter){return formattedAvailability;}
-      else if(context.filter && context.filter === formattedAvailability){
+      else if(context.filter && unescape(context.filter) === formattedAvailability){
         return formattedAvailability;
       }
       return;
