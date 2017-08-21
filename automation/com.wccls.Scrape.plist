@@ -6,12 +6,10 @@
 	<string>com.wccls.Scrape</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/eric/github/wccls-data/scrape.sh</string>
+		<string>/Users/eric/github/wccls-data/automation/scrape.sh</string>
 		<string>--periodic</string>
 	</array>
 	<key>StartInterval</key>
 	<integer>900</integer>
-	<key>WorkingDirectory</key>
-	<string>/Users/eric/github/wccls-data/</string>
 </dict>
 </plist>
