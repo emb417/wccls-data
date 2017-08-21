@@ -5,7 +5,6 @@ const parser = require('./parser');
 const config = require('./config');
 
 exports.scrape = (context, callback) => {
-  console.log("+", new Date(), context);
   // construct initial url
   const resultsUrl = `${ config.baseUrl }/Results/?ls=1.${ context.size || config.size }.0.&t=${ context.keyword }`;
 
