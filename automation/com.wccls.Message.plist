@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.wccls.Message</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/bin/env</string>
+		<string>/Users/eric/github/wccls-data/automation/notify.sh</string>
+	</array>
+	<key>StandardInPath</key>
+	<string>/Users/eric/github/wccls-data/notify/stdin</string>
+	<key>WatchPaths</key>
+	<array>
+		<string>/Users/eric/github/wccls-data/notify</string>
+	</array>
+</dict>
+</plist>
