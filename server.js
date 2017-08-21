@@ -1,16 +1,23 @@
 const express = require('express');
-const morgan = require('morgan')
+const fs = require('fs');
+const path = require('path');
 const http = require('http');
+const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const lambda = require('./app/lambda');
 
 const app = express();
-app.use(morgan('combined'));
-
 // invoke pretty print
 app.set('json spaces', 2);
+
+// create a write stream (in append mode)
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+
+// express middleware
+app.use(morgan('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
+// express routes
 app.get('/keyword/:keyword', function(req, res) {
   lambda.handler(req.body, req.params, function(err, result) {
     if (err) {
@@ -56,6 +63,4 @@ app.get('/', function(req, res) {
   });
 });
 
-http.createServer(app).listen(1337, function() {
-  console.log('+', new Date(), 'listening...');
-});
+http.createServer(app).listen(1337);

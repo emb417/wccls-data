@@ -2,16 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>KeepAlive</key>
+	<true/>
 	<key>Label</key>
-	<string>com.wccls.Availability</string>
+	<string>com.wccls.Server</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/eric/github/wccls-data/scrape.sh</string>
-		<string>--periodic</string>
+		<string>/usr/local/bin/node</string>
+		<string>/Users/eric/github/wccls-data/server.js</string>
 	</array>
-	<key>StartInterval</key>
-	<integer>900</integer>
+	<key>RunAtLoad</key>
+	<true/>
 	<key>WorkingDirectory</key>
-	<string>/Users/eric/github/wccls-data</string>
+	<string>/Users/eric/github/wccls-data/</string>
 </dict>
 </plist>
