@@ -22,6 +22,7 @@ working_dir='/Users/eric/github/wccls-data'
 
 for u in ${unholdables[@]}; do
   curl $protocol://$host:$port/\?size\=$un_size\&filter\=$un_avail_code\&keyword\=${u} -o $working_dir/data/${u}__$(ts).json
+  # if [[ '$contents' == '[]' ]]; then cat $contents > $working_dir/notify/stdin; fi
 done
 
 for o in ${onshelves[@]}; do
