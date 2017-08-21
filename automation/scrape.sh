@@ -9,7 +9,7 @@ unholdables=('ghost%20in%20the%20shell' 'pasengers')
 un_size='10'
 un_avail_code='In%20%2D%2D%20Not%20Holdable'
 
-onshelves=('ps4' 'bluray')
+onshelves=('ps4')
 os_size='250'
 os_avail_code='In'
 
