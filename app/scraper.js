@@ -41,13 +41,11 @@ exports.scrape = (context, callback) => {
       // once all concurrent requests are complete, parse results per response
       axios.all(promiseArray)
       .then(function(results) {
-        let filteredAvailability = [];
-
-        results.map((r) => {
+        let filteredAvailability = results.map((r) => {
           const availability = parser.getAvailability(r.data, context);
           //discard results that have no items
           if(availability.items.length>0){
-            filteredAvailability.push(availability);
+            return availability;
           }
         });
 
