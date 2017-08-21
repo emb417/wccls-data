@@ -8,11 +8,6 @@ exports.scrape = (context, callback) => {
   // construct initial url
   const resultsUrl = `${ baseUrl }/Results/?ls=1.${ context.size || '10' }.0.&t=${ context.keyword }`;
 
-  // return item ids parsed from search results response data
-  const getItemIds = (response) => {
-    return parser.getIds(response.data);
-  }
-
   // return urls to crawl for availability data
   const availabilityUrls = (response) => {
     const urls = [];
@@ -27,7 +22,7 @@ exports.scrape = (context, callback) => {
                               19 //Hillsboro Shute Park
                             ] ];
     // construct urls for all items and branches combos
-    for( const itemId of getItemIds(response)){
+    for( const itemId of parser.getIds(response.data)){
       for( const branchId of branchIds ){
         urls.push(`${ baseUrl }/Items/1.${ itemId }.1.${ branchId }.1`);
       };
