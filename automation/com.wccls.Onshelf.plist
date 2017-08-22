@@ -5,10 +5,10 @@
 	<key>Disabled</key>
 	<false/>
 	<key>Label</key>
-	<string>com.wccls.Scrape</string>
+	<string>com.wccls.Onshelf</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/eric/github/wccls-data/automation/scrape.sh</string>
+		<string>/Users/eric/github/wccls-data/automation/onshelf.sh</string>
 		<string>--periodic</string>
 	</array>
 	<key>StartCalendarInterval</key>
