@@ -26,8 +26,12 @@ Automation files are included for Mac OS X.
 1. Change the working_dir in each script except imessage.sh
 1. chmod 777 scripts
 1. Change the paths in each plist
-1. Copy com.wccls.Server.plist to /Library/LauchDaemons/.
-1. Copy com.wccls.Scrape.plist and com.wccls.Message.plist to /Library/LaunchAgent/.
+1. sudo cp com.wccls.Server.plist /Library/LaunchDaemons/.
+1. sudo cp com.wccls.Scrape.plist /Library/LaunchAgents/.
+1. sudo cp com.wccls.Message.plist /Library/LaunchAgents/.
+1. launchctl load /Library/LaunchDaemons/com.wccls.Server.plist
+1. launchctl load /Library/LaunchAgents/com.wccls.Message.plist
+1. launchctl load /Library/LaunchAgents/com.wccls.Scrape.plist
 
 ## Example API Usage
 
