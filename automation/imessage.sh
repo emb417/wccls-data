@@ -19,19 +19,6 @@ on appIsRunning(appName)
     application appname is running
 end appIsRunning
 
--- use system events (unused)
-on SysevAppIsRunning(appName)
-    tell application "System Events" to (name of processes) contains appName
-end appIsRunning
-
--- use finder (unusged)
-on finderAppIsRunning(appName)
-    tell application "Finder" to (name of every process) contains appName
-end appIsRunning
-
--- taken from:
--- http://stackoverflow.com/questions/11812184/how-to-send-an-imessage-text-with-applescript-only-in-provided-service
--- thanks to users @Senseful and @DigiLord
 on run {targetBuddyPhone, targetMessage}
     tell application "Messages"
         -- if Messages.app was not running, launch it
@@ -50,7 +37,7 @@ on run {targetBuddyPhone, targetMessage}
 
         -- if the app was not running, close the window
         if not wasRunning
-            close window 1
+            quit
         end if
     end tell
 end run

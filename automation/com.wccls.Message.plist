@@ -10,7 +10,7 @@
 		<string>/Users/eric/github/wccls-data/automation/notify.sh</string>
 	</array>
 	<key>StandardInPath</key>
-	<string>/Users/eric/github/wccls-data/notify/stdin</string>
+	<string>/Users/eric/github/wccls-data/notify/message.txt</string>
 	<key>WatchPaths</key>
 	<array>
 		<string>/Users/eric/github/wccls-data/notify</string>
