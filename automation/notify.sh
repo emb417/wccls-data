@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+working_dir='/Users/eric/github/wccls-data'
+
 message=$(</Users/eric/github/wccls-data/notify/message.txt)
 
-/Users/eric/github/wccls-data/automation/imessage.sh $message
+$working_dir/automation/imessage.sh $message

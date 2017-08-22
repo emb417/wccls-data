@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+working_dir='/Users/eric/github/wccls-data'
+
 # Define a timestamp function
 ts() {
   date +"%s"
@@ -19,7 +21,7 @@ branch='39'
 protocol='http'
 host='127.0.0.1'
 port='1337'
-working_dir='/Users/eric/github/wccls-data'
+
 msg_to='6123847749'
 msg_file=$working_dir/notify/message.txt
 

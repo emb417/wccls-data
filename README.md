@@ -1,8 +1,35 @@
 # wccls-data
 
-Collecting "Not Holdable" availability data from [Washington County Cooperative Library Services Catalog](https://catalog.wccls.org/) for titles based on keyword search and branch ids.
+Collecting availability data from [Washington County Cooperative Library Services Catalog](https://catalog.wccls.org/) for titles based on keyword search and branch ids.
 
-## Example Usage
+## Dev Setup
+
+1. install node 8.4.0
+1. git clone
+1. mkdir data
+1. mkdir logs
+1. touch logs/access.log
+1. mkdir notify
+1. touch notify/message.txt
+1. npm i
+1. npm start
+
+Basic dev server runs on start; using nodemon to reload the express server as you work on your app.  scrape.sh in automation can be configured to search for different keywords, etc.
+
+* Http server logs to logs/access.log
+* Responses output to data/[files].json
+* Notifications output to notify/message.txt
+
+# Automation Setup
+Automation files are included for Mac OS X.  
+
+1. Change the working_dir in each script except imessage.sh
+1. chmod 777 scripts
+1. Change the paths in each plist
+1. Copy com.wccls.Server.plist to /Library/LauchDaemons/.
+1. Copy com.wccls.Scrape.plist and com.wccls.Message.plist to /Library/LaunchAgent/.
+
+## Example API Usage
 
 ### Request:
 * curl http://127.0.0.1:1337/\?size\=5\&branch\=9\&filter\=In\&keyword\=ghost%20in%20the%20shell
@@ -66,17 +93,6 @@ Collecting "Not Holdable" availability data from [Washington County Cooperative 
   }
 ]
 ```
-
-## Dev Setup
-
-1. git clone
-1. npm i
-1. npm start
-
-Basic dev server runs on start; using nodemon to reload the express server as you work on your app.  Http server logs to logs/access.log.  Responses output to data/files.json
-
-# Automation
-start.sh, scrape.sh, com.wccls.Server.plist and com.wccls.Scrape.plist are included to help setup automation.  I used Automator to create an application using start.sh contents, then added the app to my user login apps.  I used LaunchControl to setup the plists that runs every 15 minutes.
 
 # Appendix
 
