@@ -5,9 +5,10 @@ ts() {
   date +"%s"
 }
 
-unholdables=('ghost%20in%20the%20shell' 'pasengers')
+unholdables=('ghost%20in%20the%20shell' 'passengers')
 un_size='10'
 un_avail_code='In%20%2D%2D%20Not%20Holdable'
+filter='[]'
 
 onshelves=('ps4')
 os_size='250'
@@ -18,11 +19,14 @@ branch='39'
 protocol='http'
 host='127.0.0.1'
 port='1337'
-working_dir='/Users/eric/github/wccls-data'
+working_dir='/Users/ebrous/github/personal/wccls-data'
 
 for u in ${unholdables[@]}; do
-  curl $protocol://$host:$port/\?size\=$un_size\&filter\=$un_avail_code\&keyword\=${u} -o $working_dir/data/${u}__$(ts).json
-  # if [[ '$contents' == '[]' ]]; then cat $contents > $working_dir/notify/stdin; fi
+  file=$working_dir/data/${u}__$(ts).json
+  curl $protocol://$host:$port/\?size\=$un_size\&filter\=$un_avail_code\&keyword\=${u} -o $file
+  if [ $(<$file) == "[]" ]; then 
+    echo $(<$file) > $working_dir/notify/message.txt; 
+  fi
 done
 
 for o in ${onshelves[@]}; do
