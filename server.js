@@ -1,24 +1,45 @@
-const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const http = require('http');
-const morgan = require('morgan')
+const express = require('express');
+const morgan = require('morgan');
+const rfs = require('rotating-file-stream');
 const bodyParser = require('body-parser');
-const lambda = require('./app/lambda');
+const scraper = require('./app/scraper');
+
+const logDirectory = path.join(__dirname, 'logs');
+const dataDirectory = path.join(__dirname, 'data');
+const notifyDirectory = path.join(__dirname, 'notify');
+
+// ensure directories exists
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+fs.existsSync(dataDirectory) || fs.mkdirSync(dataDirectory);
+fs.existsSync(notifyDirectory) || fs.mkdirSync(notifyDirectory);
+fs.access('./notify/message.txt', fs.constants.F_OK, (err) => {
+  if(err){
+    fs.writeFile('./notify/message.txt', '', (err) => {
+        if (err) { throw err; }
+        return;
+    });
+  }
+  return;
+});
 
 const app = express();
 // invoke pretty print
 app.set('json spaces', 2);
 
-// create a write stream (in append mode)
-const accessLogStream = fs.createWriteStream(path.join(__dirname, '/logs/access.log'), {flags: 'a'})
+// create a rotating write stream
+const accessLogStream = rfs('access.log', {
+  interval: '1d', // rotate daily
+  path: logDirectory
+});
 
 // express middleware
 app.use(morgan('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-  lambda.handler(req.body, req.query, function(err, result) {
+  scraper.scrape(req.query, function(err, result) {
     if (err) {
       return res.send(err);
     }
@@ -26,4 +47,4 @@ app.get('/', function(req, res) {
   });
 });
 
-http.createServer(app).listen(1337);
+app.listen(1337);
