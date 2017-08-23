@@ -52,7 +52,10 @@ exports.scrape = (context, callback) => {
         });
 
         return callback(null, filteredAvailability);
-      });
+      })
+      .catch(function (error) {
+        callback(true, error);
+      });      
     })
     .catch(function (error) {
       callback(true, error);

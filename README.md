@@ -6,32 +6,44 @@ Collecting availability data from [Washington County Cooperative Library Service
 
 1. install node 8.4.0
 1. git clone
-1. mkdir data
-1. mkdir logs
-1. touch logs/access.log
-1. mkdir notify
-1. touch notify/message.txt
 1. npm i
 1. npm start
-
-Basic dev server runs on start; using nodemon to reload the express server as you work on your app.  scrape.sh in automation can be configured to search for different keywords, etc.
-
-* Http server logs to logs/access.log
-* Responses output to data/[files].json
-* Notifications output to notify/message.txt
+  * Server creates needed dirs and files on start
+    * Http server logs to logs/access.log
+    * Responses output to data/[files].json
+    * Notifications output to notify/message.txt
+  * listens on port 1337
+  * uses nodemon to reload with changes in app or automation 
 
 # Automation Setup
-Automation files are included for Mac OS X.  
+Automation files are included for Mac OS X.  With a little work, easily ported elsewhere, with the exception of the SMS components (uses messages on macs).  
+* com.wccls.Server.plist (global LaunchDaemon) will start the server
+* com.wccls.Message.plist (global LaunchAgent) watches for changes in /notify to use messages
+* com.wccls.Unhold.plist (global LaunchAgent) runs unhold.sh every 15 from 9-8 (open hours)
 
+To setup plists, try LaunchControl for nice GUI experience, or show your 1337 skillz with cp and launchctl:
+* Change the paths in each plist to match the path of server.js
+* sudo cp com.wccls.Server.plist /Library/LaunchDaemons/.
+* sudo cp com.wccls.Scrape.plist /Library/LaunchAgents/.
+* sudo cp com.wccls.Message.plist /Library/LaunchAgents/.
+* launchctl load /Library/LaunchDaemons/com.wccls.Server.plist
+* launchctl load /Library/LaunchAgents/com.wccls.Message.plist
+* launchctl load /Library/LaunchAgents/com.wccls.Scrape.plist
+
+Included are shell scripts that curl the server passing the configs as query params
+* global.cfg contains...wait for it...global variables
+* start.sh starts the server (not currently used, but could be triggered by an event)
+* unhold.sh sources unhold_titles.txt
+  * add or remove rows to search for different keywords
+  * unhold is pre-configured to search for "In -- Not Holdable"
+  * unhold is pre-configured to get availability against top ten results
+* notify.sh is called by Message.plist passing messages.txt contents as params to...
+  * imessage.sh processes the contents of messages.txt using messages to text msg_to
+* onshelf.sh is a prototype...nuf sed...
+
+To setup scripts...
 1. Change the working_dir in each script except imessage.sh
-1. chmod 777 scripts
-1. Change the paths in each plist
-1. sudo cp com.wccls.Server.plist /Library/LaunchDaemons/.
-1. sudo cp com.wccls.Scrape.plist /Library/LaunchAgents/.
-1. sudo cp com.wccls.Message.plist /Library/LaunchAgents/.
-1. launchctl load /Library/LaunchDaemons/com.wccls.Server.plist
-1. launchctl load /Library/LaunchAgents/com.wccls.Message.plist
-1. launchctl load /Library/LaunchAgents/com.wccls.Scrape.plist
+1. chmod 777 scripts ;)
 
 ## Example API Usage
 
@@ -54,13 +66,13 @@ Automation files are included for Mac OS X.
 
 #### Filters
 * In
-* Out (does't work yet)
+* In -- Not Holdable
+* Held
+* Out (does't work yet because of due date dynamics)
 * Lost
 * Missing
 * Transferred
 * In-Transit
-* Held
-* -- Not Holdable (doesn't work yet)
 * On-Order
 * In-Repair
 * Unavailable
@@ -69,30 +81,10 @@ Automation files are included for Mac OS X.
 ```javascript
 [
   {
-    "title": "Ghost in the shell [videorecording (Blu-ray + DVD)]",
-    "branch": "Beaverton City Library",
+    "title": "Passengers [videorecording (Blu-ray)]",
+    "branch": "Cedar Mill Bethany Branch Library",
     "items": [
-      "Out (Due: 8/22/2017) -- Not Holdable",
-      "Held",
-      "Transferred",
-      "Out (Due: 8/25/2017)"
-    ]
-  },
-  {
-    "title": "Ghost in the shell [videorecording (DVD)]",
-    "branch": "Beaverton City Library",
-    "items": [
-      "Out (Due: 8/22/2017) -- Not Holdable",
-      "Out (Due: 8/25/2017)",
-      "Out (Due: 8/22/2017)",
-      "Held"
-    ]
-  },
-  {
-    "title": "Ghost in the shell. S.A.C. 2nd gig [videorecording (DVD)] : [season two]",
-    "branch": "Beaverton City Library",
-    "items": [
-      "Out (Due: 9/8/2017)"
+      "In -- Not Holdable"
     ]
   }
 ]
