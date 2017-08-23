@@ -50,14 +50,16 @@ exports.scrape = (context, callback) => {
           }
           return;
         });
-
-        return callback(null, filteredAvailability);
+        let formattedResult = (context.type==="msg" && filteredAvailability[0])
+          ? `${ filteredAvailability[0].title.replace(/\s/g, '.') }::${ filteredAvailability[0].branch.replace(/\s/g, '.') }`
+          : filteredAvailability;
+        return callback(null, formattedResult);
       })
       .catch(function (error) {
-        callback(true, error);
+        callback(null, error);
       });      
     })
     .catch(function (error) {
-      callback(true, error);
+      callback(null, error);
     });
 };

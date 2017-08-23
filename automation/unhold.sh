@@ -14,7 +14,7 @@ ts() {
 
 for title in ${titles[@]}; do
   data_file=$working_dir/data/$(ts).json
-  curl $protocol://$host:$port/\?size\=$un_size\&filter\=$un_avail_code\&keyword\=${title} -o $data_file
+  curl $protocol://$host:$port/\?type\=msg\&size\=$un_size\&filter\=$un_avail_code\&keyword\=${title} -o $data_file
   file_size=$(wc -c <$data_file)
   if [ $file_size -gt 2 ]; then
     echo $msg_to > $msg_file

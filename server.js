@@ -25,8 +25,6 @@ fs.access('./notify/message.txt', fs.constants.F_OK, (err) => {
 });
 
 const app = express();
-// invoke pretty print
-app.set('json spaces', 2);
 
 // create a rotating write stream
 const accessLogStream = rfs('access.log', {
@@ -41,7 +39,7 @@ app.use(bodyParser.json());
 app.get('/', function(req, res) {
   scraper.scrape(req.query, function(err, result) {
     if (err) {
-      return res.send(err);
+      res.send(err);
     }
     res.send(result);
   });
