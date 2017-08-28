@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Express = require('express');
 const scraper = require('./scraper');
+const globalConfig = require('../config/global.json');
 const unholdConfig = require('../config/unhold.json');
 
 const unhold = Express();
@@ -60,13 +61,29 @@ unhold.use((req, res) => {
       console.log("formatting results for msg...");
       formattedData = "";
       promiseData.items.forEach( branchTitles => {
-        // console.log("branchTitlestitles: ", branchTitles);
         branchTitles.forEach( branchTitle => {
           if(branchTitle.items.includes(`In -- ${ unholdConfig.availabilityCode }`)){
-            formattedData += `${ branchTitle.title.replace(/\s/g, '.') }::${ branchTitle.branch.replace(/\s/g, '.') } | `;
+            formattedData += `${ branchTitle.title.replace(/\s/g, '.') }::${ branchTitle.branch.replace(/\s/g, '.') }|`;
           }
         });
-      });      
+      });
+      if(formattedData!==""){
+        console.log("updating messages.txt file...");
+        const messageText = `${ globalConfig.msgTo } ${ formattedData }`;
+        fs.access('./notify/message.txt', fs.constants.F_OK, (err) => {
+          if(err){
+            fs.writeFile('./notify/message.txt', messageText, (err) => {
+                if (err) { throw err; }
+                return;
+            });
+          }
+          fs.writeFile('./notify/message.txt', messageText, (err) => {
+              if (err) { throw err; }
+              return;
+          });          
+          return;
+        });
+      }
     }
     res.send(formattedData);
   });

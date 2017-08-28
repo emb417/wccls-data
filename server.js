@@ -14,15 +14,6 @@ const notifyDirectory = path.join(__dirname, 'notify');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 fs.existsSync(dataDirectory) || fs.mkdirSync(dataDirectory);
 fs.existsSync(notifyDirectory) || fs.mkdirSync(notifyDirectory);
-fs.access('./notify/message.txt', fs.constants.F_OK, (err) => {
-  if(err){
-    fs.writeFile('./notify/message.txt', '', (err) => {
-        if (err) { throw err; }
-        return;
-    });
-  }
-  return;
-});
 
 const app = Express();
 
@@ -39,7 +30,7 @@ app.use(bodyParser.json());
 app.use('/unhold', unhold);
 
 app.get('*', (req, res) => {
-  res.send('Welcome!  Use /unhold or fail.');
+  res.send('Welcome!  We support /unhold.');
 });
 
 app.listen(1337);
