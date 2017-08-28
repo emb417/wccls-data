@@ -4,6 +4,6 @@
     "passengers"
   ],
   "resultsSizeLimit": "10",
-  "availabilityCode": "In%20%2D%2D%20Not%20Holdable",
+  "availabilityCode": "Not%20Holdable",
   "type": "msg"
 }
