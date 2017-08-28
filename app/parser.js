@@ -13,10 +13,6 @@ exports.getAvailability = (response, context) => {
     // if item text contains not holdable, format availability
     const formattedAvailability = /\-\ Not\ Holdable\ \-/.test(findItemText) ?
       `${ itemAvailabilityText } -- Not Holdable` : itemAvailabilityText;
-    // ony include availability that contains availabilityCode
-    // if(formattedAvailability.includes(unescape(context.availabilityCode))) {
-    //  return formattedAvailability;
-    //}
     return formattedAvailability;
   }).get();
 
