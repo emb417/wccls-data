@@ -8,9 +8,13 @@
 	<string>com.wccls.Unhold</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/eric/github/wccls-data/automation/unhold.sh</string>
+		<string>/bin/sh</string>
+		<string>-c</string>
+		<string>/usr/bin/env curl http://127.0.0.1:1337/unhold</string>
 		<string>--periodic</string>
 	</array>
+	<key>RunAtLoad</key>
+	<true/>
 	<key>StartCalendarInterval</key>
 	<array>
 		<dict>

@@ -13,39 +13,37 @@ Collecting availability data from [Washington County Cooperative Library Service
     * Responses output to data/[files].json
     * Notifications output to notify/message.txt
   * listens on port 1337
-  * uses nodemon to reload with changes in app or automation 
+  * uses nodemon to reload with changes in app or config 
 
-# Automation Setup
+## Automation Setup
 Automation files are included for Mac OS X.  With a little work, easily ported elsewhere, with the exception of the SMS components (uses messages on macs).  
 * com.wccls.Server.plist (global LaunchDaemon) will start the server
 * com.wccls.Message.plist (global LaunchAgent) watches for changes in /notify to use messages
-* com.wccls.Unhold.plist (global LaunchAgent) runs unhold.sh every 15 from 9-8 (open hours)
+* com.wccls.Unhold.plist (global LaunchAgent) curls the server at /unhold every 15 from 9-8 (open hours)
 
 To setup plists, try LaunchControl for nice GUI experience, or show your 1337 skillz with cp and launchctl:
-* Change the paths in each plist to match the path of server.js
+* Change the paths in Server and Message plists to match the path of server.js
 * sudo cp com.wccls.Server.plist /Library/LaunchDaemons/.
-* sudo cp com.wccls.Scrape.plist /Library/LaunchAgents/.
+* sudo cp com.wccls.Unhold.plist /Library/LaunchAgents/.
 * sudo cp com.wccls.Message.plist /Library/LaunchAgents/.
 * launchctl load /Library/LaunchDaemons/com.wccls.Server.plist
 * launchctl load /Library/LaunchAgents/com.wccls.Message.plist
-* launchctl load /Library/LaunchAgents/com.wccls.Scrape.plist
+* launchctl load /Library/LaunchAgents/com.wccls.Unhold.plist
 
-Included are shell scripts that curl the server passing the configs as query params
-* global.cfg contains...wait for it...global variables
-* start.sh starts the server (not currently used, but could be triggered by an event)
-* unhold.sh sources unhold_titles.txt
-  * add or remove rows to search for different keywords
-  * unhold is pre-configured to search for "In -- Not Holdable"
-  * unhold is pre-configured to get availability against top ten results
-* notify.sh is called by Message.plist passing messages.txt contents as params to...
-  * imessage.sh processes the contents of messages.txt using messages to text msg_to
-* onshelf.sh is a prototype...nuf sed...
+Included is a shell script that interacts with messages on a mac:
+* imessage.sh is called by Message.plist passing messages.txt contents as params...
+  * contents of messages.txt will be used by messages
+  * NOTE: make sure this script is executable (hint: chmod)
+  
+### Config Setup
+* Modify global.json with the branches you frequent
+* Modify global.json msgTo with your messages number
+* Modify unhold.json keywords with the titles you're interested in
+  * NOTE: keywords that redirect to a single item will not work
 
-To setup scripts...
-1. Change the working_dir in each script except imessage.sh
-1. chmod 777 scripts ;)
+# Appendix
 
-## Example API Usage
+## Example API Usage (deprecated, for now)
 
 ### Request:
 * curl http://127.0.0.1:1337/\?size\=5\&branch\=9\&filter\=In\&keyword\=ghost%20in%20the%20shell
@@ -90,7 +88,7 @@ To setup scripts...
 ]
 ```
 
-# Appendix
+### Appendix Notes
 
 Availability:
 https://catalog.wccls.org/Mobile/Search/Items/1.609225.1.9.1

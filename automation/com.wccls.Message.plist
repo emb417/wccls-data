@@ -6,14 +6,13 @@
 	<string>com.wccls.Message</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/usr/bin/env</string>
-		<string>/Users/eric/github/wccls-data/automation/imessage.sh</string>
+		<string>/bin/sh</string>
+		<string>-c</string>
+		<string>/usr/bin/env /Users/eric/wccls/automation/imessage.sh $(&lt;/Users/eric/wccls/notify/message.txt)</string>
 	</array>
-	<key>StandardInPath</key>
-	<string>/Users/eric/github/wccls-data/notify/message.txt</string>
 	<key>WatchPaths</key>
 	<array>
-		<string>/Users/eric/github/wccls-data/notify</string>
+		<string>/Users/eric/wccls/notify</string>
 	</array>
 </dict>
 </plist>

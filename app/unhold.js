@@ -7,6 +7,9 @@ const unholdConfig = require('../config/unhold.json');
 
 const unhold = Express();
 
+const itemsDB = path.join(__dirname, '..', 'data', 'items.db');
+const messagesFile = path.join(__dirname, '..', 'notify', 'message.txt');
+
 unhold.use((req, res) => {
   console.log("...setting initial context...");
   const context = { 
@@ -29,26 +32,26 @@ unhold.use((req, res) => {
       "items": results  
     };
     console.log("checking items.db...");
-    fs.access('./data/items.db', fs.constants.F_OK, (err) => {
+    fs.access(itemsDB, fs.constants.F_OK, (err) => {
       // if db doesn't exist, create it
       if(err){
         console.log("items.db does not exist, writing a new one...");
         const unholdableData = { "unholdables": [ promiseData ] };
-        fs.writeFile('./data/items.db', JSON.stringify(unholdableData), (err) => {
+        fs.writeFile(itemsDB, JSON.stringify(unholdableData), (err) => {
             if (err) { throw err; }
             console.log("items.db initialized...");
             return;
         });
       } else {
         console.log("items.db does exists, appending new data...");
-        fs.readFile('./data/items.db', 'utf8', (err, fileData) => {
+        fs.readFile(itemsDB, 'utf8', (err, fileData) => {
           if (err) { throw err; }
           // read and write same, soon merge...
           let unholdables = JSON.parse(fileData).unholdables;
           unholdables.push(promiseData);
           const mergedData = { unholdables };
           // write over items.db with newly merged data
-          fs.writeFile('./data/items.db', JSON.stringify(mergedData), (err) => {
+          fs.writeFile(itemsDB, JSON.stringify(mergedData), (err) => {
               if (err) { throw err; }
               console.log("items.db updated...");
               return;
@@ -70,14 +73,14 @@ unhold.use((req, res) => {
       if(formattedData!==""){
         console.log("updating messages.txt file...");
         const messageText = `${ globalConfig.msgTo } ${ formattedData }`;
-        fs.access('./notify/message.txt', fs.constants.F_OK, (err) => {
+        fs.access(messagesFile, fs.constants.F_OK, (err) => {
           if(err){
-            fs.writeFile('./notify/message.txt', messageText, (err) => {
+            fs.writeFile(messagesFile, messageText, (err) => {
                 if (err) { throw err; }
                 return;
             });
           }
-          fs.writeFile('./notify/message.txt', messageText, (err) => {
+          fs.writeFile(messagesFile, messageText, (err) => {
               if (err) { throw err; }
               return;
           });          
