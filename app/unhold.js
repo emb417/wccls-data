@@ -66,7 +66,8 @@ unhold.use((req, res) => {
       promiseData.items.forEach( branchTitles => {
         branchTitles.forEach( branchTitle => {
           if(branchTitle.items.includes(`In -- ${ unholdConfig.availabilityCode }`)){
-            formattedData += `${ branchTitle.title.replace(/\s/g, '.') }::${ branchTitle.branch.replace(/\s/g, '.') }|`;
+            formattedData += formattedData === "" ? "" : "||--||";
+            formattedData += `${ branchTitle.title.replace(/\s/g, '.') }::${ branchTitle.branch.replace(/\s/g, '.') }`;
           }
         });
       });
