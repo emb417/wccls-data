@@ -2,23 +2,22 @@ const fs = require('fs');
 const path = require('path');
 const Express = require('express');
 const scraper = require('./scraper');
-const globalConfig = require('../config/global.json');
-const unholdConfig = require('../config/unhold.json');
+const config = require('./config.json');
 
-const unhold = Express();
+const hours = Express();
 
-const itemsDB = path.join(__dirname, '..', 'data', 'items.db');
-const messagesFile = path.join(__dirname, '..', 'notify', 'message.txt');
+const itemsDB = path.join(__dirname, '../..', 'data/items.db');
+const messagesFile = path.join(__dirname, '../..', 'notify/message.txt');
 
-unhold.use((req, res) => {
-  console.log("...setting initial context...");
+hours.use((req, res) => {
+  console.log("...setting HOURS initial context...");
   const context = { 
-    availabilityCode: unholdConfig.availabilityCode,
-    resultsSizeLimit: unholdConfig.resultsSizeLimit
+    availabilityCode: config.availabilityCode,
+    resultsSizeLimit: config.resultsSizeLimit
   };
   console.log("building promise array...");
   let promises = [];
-  unholdConfig.keywords.forEach( keyword => {
+  config.keywords.forEach( keyword => {
     promises.push(scraper.scrape(keyword, context));
   });
   console.log("promise all...");
@@ -60,37 +59,35 @@ unhold.use((req, res) => {
       };
     });
     let formattedData = promiseData;
-    if(unholdConfig.type === "msg"){
-      console.log("formatting results for msg...");
-      formattedData = "";
-      promiseData.items.forEach( branchTitles => {
-        branchTitles.forEach( branchTitle => {
-          if(branchTitle.items.includes(`In -- ${ unholdConfig.availabilityCode }`)){
-            formattedData += formattedData === "" ? "" : "|-o-|";
-            formattedData += `${ branchTitle.title.replace(/\s/g, '.') }::${ branchTitle.branch.replace(/\s/g, '.') }`;
-          }
-        });
+    console.log("formatting results for msg...");
+    formattedData = "";
+    promiseData.items.forEach( branchTitles => {
+      branchTitles.forEach( branchTitle => {
+        if(branchTitle.items.includes(`In -- ${ config.availabilityCode }`)){
+          formattedData += formattedData === "" ? "" : "|-o-|";
+          formattedData += `${ branchTitle.title.replace(/\s/g, '.') }::${ branchTitle.branch.replace(/\s/g, '.') }`;
+        }
       });
-      if(formattedData!==""){
-        console.log("updating messages.txt file...");
-        const messageText = `${ globalConfig.msgTo } ${ formattedData }`;
-        fs.access(messagesFile, fs.constants.F_OK, (err) => {
-          if(err){
-            fs.writeFile(messagesFile, messageText, (err) => {
-                if (err) { throw err; }
-                return;
-            });
-          }
+    });
+    if(formattedData!==""){
+      console.log("updating messages.txt file...");
+      const messageText = `${ config.msgTo } ${ formattedData }`;
+      fs.access(messagesFile, fs.constants.F_OK, (err) => {
+        if(err){
           fs.writeFile(messagesFile, messageText, (err) => {
               if (err) { throw err; }
               return;
-          });          
-          return;
-        });
-      }
+          });
+        }
+        fs.writeFile(messagesFile, messageText, (err) => {
+            if (err) { throw err; }
+            return;
+        });          
+        return;
+      });
     }
     res.send(formattedData);
   });
 });
 
-module.exports = unhold;
+module.exports = hours;

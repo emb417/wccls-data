@@ -1,6 +1,6 @@
 const axios = require('axios');
 const parser = require('./parser');
-const config = require('../config/global.json');
+const config = require('./config.json');
 
 // return urls to crawl for availability data
 const availabilityUrls = ( context, response ) => {
@@ -20,11 +20,11 @@ const availabilityUrls = ( context, response ) => {
 
 exports.scrape = ( keyword, context ) => {
   return new Promise( (resolve, reject) => {
-    console.log("getting search results for keyword: ", keyword);
+    //console.log("getting search results for keyword: ", keyword);
     // search by keyword to get ids
-    axios.get( `${ config.baseUrl }/Results/?ls=1.${ context.resultsSizeLimit || '10' }.0.&t=${ keyword }` )
+    axios.get( `${ config.baseUrl }/Results/?ls=1.${ context.resultsSizeLimit || config.resultsSizeLimit }.0.&t=${ keyword }` )
       .then( response => {
-        console.log('get availabilityUrls...');
+        //console.log('get availabilityUrls...');
         // build array from concurrent requests per item and branch combo
         let promiseArray = availabilityUrls( context, response ).map( url => {
           return axios.get( url );
@@ -32,7 +32,7 @@ exports.scrape = ( keyword, context ) => {
         // once all concurrent requests are complete, parse results per response
         axios.all(promiseArray.map(p => p.catch(() => undefined)))
         .then( results => {
-          console.log("filtering availability...");
+          //console.log("filtering availability...");
           let filteredAvailability = [];
           results.map( r => {
             const availability = parser.getAvailability( r.data, context );
