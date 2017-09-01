@@ -78,7 +78,7 @@ app.use((req, res) => {
       console.log(`${ Date.now()} formatting results for msg...`);      
       promiseData.items.forEach( branchTitles => {
         branchTitles.forEach( branchTitle => {
-          if(branchTitle.items.includes(context.availabilityCode)){
+          if(branchTitle.items.includes(`In -- ${ context.availabilityCode }`)){
             formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
             formattedData += `${
               branchTitle.branch.replace('Beaverton City Library', 'BCC')
@@ -87,15 +87,13 @@ app.use((req, res) => {
                 .replace('Cedar Mill Community Library', 'CMC')
                 .replace('Hillsboro Brookwood Library', 'HBW')
                 .replace('Hillsboro Shute Park Library', 'HSP')
-              }${ delim }${ 
+            }${ delim }${ 
               branchTitle.title.replace(/\[videorecording\s+\(/, '')
                 .replace(/\[sound\srecording\s+\(/,'')
                 .replace(/\[electronic\sresource\s+\(/,'')
                 .replace(/\)\]/,'')
-              }${ delim }${
-              branchTitle.items
             }`;
-          }
+          };
         });
       });      
     }

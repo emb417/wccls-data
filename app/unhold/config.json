@@ -1,6 +1,7 @@
 {
   "app": "UNHOLD",
   "keywords": [
+    "guardians+of+the+galaxy+vol+2"
     "wonder+woman+bluray",
     "baywatch"
   ],
@@ -14,8 +15,10 @@
     "Cedar Mills Bethany Branch (CMB)": 34,
     "Cedar Mills Community Library(CMC)": 11,
     "Hillsboro Brookwood (HBW)": 20,
-    "Hillsboro Shute Park (HSP)": 19
+    "Hillsboro Shute Park (HSP)": 19,
+    "Tigard Public Library (TIG)": 29,
+    "Tualatin Public Library (TUA)": 31
   },
-  "branchIds": [ 9, 39, 34, 11, 20, 19 ],
+  "branchIds": [ 9, 39, 34, 11, 20, 19, 29, 31 ],
   "msgTo": 6123847749  
 }
