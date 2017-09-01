@@ -6,7 +6,6 @@ const rfs = require('rotating-file-stream');
 const bodyParser = require('body-parser');
 
 // app modules
-const hours = require('./hours');
 const onshelf = require('./onshelf');
 const unhold = require('./unhold');
 
@@ -34,37 +33,8 @@ app.get('/onshelf/:keywords', onshelf);
 
 app.get('/unhold', unhold);
 
-app.get('/hours/:day/branch/:id', hours);
-
-app.get('/list/:type', (req, res) => {
-  if(req.params.type === "branches") {
-    const list = [
-      '9:BCL',
-      '39:BMS',
-      '34:CMBB',
-      '11:CMCL',
-      '20:HB',
-      '19:HSP'
-    ];
-    res.send(list.join('----'));    
-  }
-  else if (req.params.type === "days") {
-    const list = [
-      'M',
-      'T',
-      'W',
-      'Th',
-      'F',
-      'Sa',
-      'Su'
-    ];
-    res.send(list.join('----'));    
-  }
-
-});
-
 app.get('*', (req, res) => {
-  res.send('Welcome!  We support /list/branches or /list/days or /unhold or /onshelf/:keywords.');
+  res.send('Welcome!  We support /unhold or /onshelf/:keywords with query of rsl (result size limit up to 300), branch, and sort.');
 });
 
 app.listen(1337);

@@ -2,26 +2,29 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const Express = require('express');
-const scraper = require('./scraper');
+const scraper = require('../scraper');
 const config = require('./config.json');
 
-const unhold = Express();
+const app = Express.Router({ mergeParams : true });
 
 const itemsDB = path.join(__dirname, '../..', 'data/items.db');
 const messagesScript = path.join(__dirname, '../..', 'automation/imessage.sh');
 
-unhold.use((req, res) => {
-  console.log(`${ Date.now()} ...setting UNHOLD initial context...`);
+app.use((req, res) => {
+  console.log(`${ Date.now()} ...setting ${ config.app } initial context...`);
   const context = { 
-    availabilityCode: config.availabilityCode,
-    resultsSizeLimit: config.resultsSizeLimit,
-    keywords: [ req.params.keywords ] || config.keywords
+    availabilityCode: (typeof req.query.ac != "undefined") ? [ req.query.ac ] : config.availabilityCode,
+    baseUrl: config.baseUrl,
+    branchIds: (typeof req.query.branch != "undefined" ) ? [ req.query.branch ] : config.branchIds,
+    keywords: (typeof req.params.keywords != "undefined") ? [ req.params.keywords ] : config.keywords,
+    msgTo: (typeof req.query.m != "undefined" ) ? [ req.query.m ] : config.msgTo,
+    resultsSizeLimit: (typeof req.query.rsl != "undefined" && parseInt(req.query.rsl) < 301) ? [ req.query.rsl ] : config.resultsSizeLimit,
+    sortBy: (typeof req.query.sort != "undefined") ? [ req.query.sort ] : config.sortBy
   };
   console.log(`${ Date.now()} building promise array...`);
   let promises = [];
   context.keywords.forEach( keyword => {
-    console.log(`${ Date.now()} for keyword: ${ keyword }`);
-    promises.push(scraper.scrape(keyword, context));
+    promises.push(scraper.scrape( keyword, context ));
   });
   console.log(`${ Date.now()} promise all...`);
   Promise.all(promises.map(p => p.catch(() => undefined)))
@@ -69,38 +72,41 @@ unhold.use((req, res) => {
         });
       };
     });
-    let formattedData = promiseData;
-    console.log(`${ Date.now()} formatting results for msg...`);
-    formattedData = "";
-    promiseData.items.forEach( branchTitles => {
-      branchTitles.forEach( branchTitle => {
-        if(branchTitle.items.includes(`In -- ${ config.availabilityCode }`)){
-          formattedData += formattedData === "" ? "" : "\n";
-          formattedData += `${
-            branchTitle.branch.replace('Beaverton City Library', '---BCL-')
-              .replace('Beaverton Murray Scholls Library', '---BMS-')
-              .replace('Cedar Mill Bethany Branch', '---CMBB')
-              .replace('Cedar Mill Community Library', '---CMCL')
-              .replace('Hillsboro Brookwood Library', '---HB--')
-              .replace('Hillsboro Shute Park Library', '---HSP-')
-          }----${ 
-            branchTitle.title.replace(/\[videorecording\s+\(/, '')
-              .replace(/\[sound\srecording\s+\(/,'')
-              .replace(/\)\]/,'')
-           }`;
-        }
-      });
-    });
+    const delim = "----";
+    let formattedData = "";
+    if ( promiseData.items.length > 0 ) {
+      console.log(`${ Date.now()} formatting results for msg...`);      
+      promiseData.items.forEach( branchTitles => {
+        branchTitles.forEach( branchTitle => {
+          if(branchTitle.items.includes(context.availabilityCode)){
+            formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
+            formattedData += `${
+              branchTitle.branch.replace('Beaverton City Library', 'BCC')
+                .replace('Beaverton Murray Scholls', 'BMS')
+                .replace('Cedar Mill Bethany Branch Library', 'CMB')
+                .replace('Cedar Mill Community Library', 'CMC')
+                .replace('Hillsboro Brookwood Library', 'HBW')
+                .replace('Hillsboro Shute Park Library', 'HSP')
+              }${ delim }${ 
+              branchTitle.title.replace(/\[videorecording\s+\(/, '')
+                .replace(/\[sound\srecording\s+\(/,'')
+                .replace(/\[electronic\sresource\s+\(/,'')
+                .replace(/\)\]/,'')
+              }${ delim }${
+              branchTitle.items
+            }`;
+          }
+        });
+      });      
+    }
+    
     if(formattedData!==""){
       console.log(`${ Date.now()} executing message...`);
-      childProcess.exec(`${ messagesScript } ${ config.msgTo } "${ formattedData }"`);
-      console.log(`${ Date.now()} sending response...`);
-      res.send(formattedData);
-    } else {
-      console.log(`${ Date.now()} no results...`);
-      res.send("No Results."); 
+      childProcess.exec(`${ messagesScript } ${ context.msgTo } "${ formattedData }"`);
     }
+    console.log(`${ Date.now()} sending response...`);
+    res.send(( formattedData !== "" ) ? formattedData : "No Results...");
   });
 });
 
-module.exports = unhold;
+module.exports = app;

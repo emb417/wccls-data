@@ -1,7 +1,6 @@
 const cheerio = require('cheerio');
 
 exports.getAvailability = (response, context) => {
-  // console.log("parsing availability...");
   const $ = cheerio.load(response);
   const obj = {};
   obj.title = $('#main b').text();

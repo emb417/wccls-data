@@ -1,18 +1,21 @@
 {
-  "keywords": [
-    "wonder+woman+bluray"
+  "app": "ONSHELF",  
+  "keywords": [ 
+    "ps4",
+    "bluray"
   ],
   "availabilityCode": "In",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
-  "resultsSizeLimit": "10",  
+  "resultsSizeLimit": "20",
+  "sortBy": "MP",
   "branchIdMap": {
-    "Beaverton City Library": 9,
-    "Beaverton Murray Scholls": 39,
-    "Cedar Mills Bethany Branch": 34,
-    "Cedar Mills Community Library": 11,
-    "Hillsboro Brookwood": 20,
-    "Hillsboro Shute Park": 19
+    "Beaverton City Library (BCC)": 9,
+    "Beaverton Murray Scholls (BMS)": 39,
+    "Cedar Mills Bethany Branch (CMB)": 34,
+    "Cedar Mills Community Library(CMC)": 11,
+    "Hillsboro Brookwood (HBW)": 20,
+    "Hillsboro Shute Park (HSP)": 19
   },
-  "branchIds": [ 9,39,34,11,20,19 ],
+  "branchIds": [ 9, 39, 34, 11, 20, 19 ],
   "msgTo": 6123847749  
 }
