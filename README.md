@@ -2,7 +2,7 @@
 
 Collecting availability data from [Washington County Cooperative Library Services Catalog](https://catalog.wccls.org/) for titles based on keyword search and branch ids.
 
-## Dev Setup
+## Start Server
 
 1. install node 8.4.0
 1. git clone
@@ -11,28 +11,19 @@ Collecting availability data from [Washington County Cooperative Library Service
   * Server creates needed dirs on start
     * Http server logs to logs/access.log
     * Responses output to data/[files].json
-    * Notifications output to notify/message.txt
   * listens on port 1337
   * uses nodemon to reload with changes in app dir 
 
 ## Automation Setup
-Automation files are included for Mac OS X.  With a little work, easily ported elsewhere, with the exception of the SMS components (uses messages on macs).
-* com.wccls.Message.plist (global LaunchAgent) watches for changes in /notify to use messages
+Automation files are included for Mac OS X.
 * com.wccls.Unhold.plist (global LaunchAgent) curls the server at /unhold every 15 from 9-8 (open hours)
-* com.wccls.Server.plist (optional global LaunchDaemon) will start the server when machine reboots, alternatively use term to start server
 
 To setup plists, try LaunchControl for nice GUI experience, or show your 1337 skillz with cp and launchctl:
-* Change the paths in Server and Message plists to match the path of server.js
-* sudo cp com.wccls.Server.plist /Library/LaunchDaemons/.
 * sudo cp com.wccls.Unhold.plist /Library/LaunchAgents/.
-* sudo cp com.wccls.Message.plist /Library/LaunchAgents/.
-* launchctl load /Library/LaunchDaemons/com.wccls.Server.plist
-* launchctl load /Library/LaunchAgents/com.wccls.Message.plist
 * launchctl load /Library/LaunchAgents/com.wccls.Unhold.plist
 
 Included is a shell script that interacts with messages on a mac:
-* imessage.sh is called by Message.plist passing messages.txt contents as params...
-  * contents of messages.txt will be used by messages
+* imessage.sh is called by an index.js child_process
   * NOTE: make sure this script is executable (hint: chmod)
 
 # App Modules

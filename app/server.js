@@ -13,12 +13,10 @@ const unhold = require('./unhold');
 // data directories
 const logDirectory = path.join(__dirname, '..', 'logs');
 const dataDirectory = path.join(__dirname, '..', 'data');
-const notifyDirectory = path.join(__dirname, '..', 'notify');
 
 // ensure directories exists
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 fs.existsSync(dataDirectory) || fs.mkdirSync(dataDirectory);
-fs.existsSync(notifyDirectory) || fs.mkdirSync(notifyDirectory);
 
 // create a rotating write stream
 const accessLogStream = rfs('access.log', {
