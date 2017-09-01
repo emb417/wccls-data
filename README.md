@@ -2,44 +2,46 @@
 
 Collecting availability data from [Washington County Cooperative Library Services Catalog](https://catalog.wccls.org/) for titles based on keyword search and branch ids.
 
-## Dev Setup
+## Start Server
 
 1. install node 8.4.0
 1. git clone
 1. npm i
 1. npm start
-  * Server creates needed dirs and files on start
+  * Server creates needed dirs on start
     * Http server logs to logs/access.log
     * Responses output to data/[files].json
-    * Notifications output to notify/message.txt
   * listens on port 1337
-  * uses nodemon to reload with changes in app or config 
+  * uses nodemon to reload with changes in app dir 
 
 ## Automation Setup
-Automation files are included for Mac OS X.  With a little work, easily ported elsewhere, with the exception of the SMS components (uses messages on macs).  
-* com.wccls.Server.plist (global LaunchDaemon) will start the server
-* com.wccls.Message.plist (global LaunchAgent) watches for changes in /notify to use messages
+Automation files are included for Mac OS X.
 * com.wccls.Unhold.plist (global LaunchAgent) curls the server at /unhold every 15 from 9-8 (open hours)
 
 To setup plists, try LaunchControl for nice GUI experience, or show your 1337 skillz with cp and launchctl:
-* Change the paths in Server and Message plists to match the path of server.js
-* sudo cp com.wccls.Server.plist /Library/LaunchDaemons/.
 * sudo cp com.wccls.Unhold.plist /Library/LaunchAgents/.
-* sudo cp com.wccls.Message.plist /Library/LaunchAgents/.
-* launchctl load /Library/LaunchDaemons/com.wccls.Server.plist
-* launchctl load /Library/LaunchAgents/com.wccls.Message.plist
 * launchctl load /Library/LaunchAgents/com.wccls.Unhold.plist
 
 Included is a shell script that interacts with messages on a mac:
-* imessage.sh is called by Message.plist passing messages.txt contents as params...
-  * contents of messages.txt will be used by messages
+* imessage.sh is called by an index.js child_process
   * NOTE: make sure this script is executable (hint: chmod)
+
+# App Modules
+The app dir is divided into modules, each including:
+* a route in server.js
+* a named dir, e.g. unhold
+* an index.js containing the express app
+* a scraper responsible for making the network calls
+* a parser using cheerio to pull data from the html
+
+## Unholdables Module
   
 ### Config Setup
-* Modify global.json with the branches you frequent
-* Modify global.json msgTo with your messages number
-* Modify unhold.json keywords with the titles you're interested in
-  * NOTE: keywords that redirect to a single item will not work
+* Modify config.json 
+  * branchIds with the ones you frequent
+  * msgTo with your messages number (or email address)
+  * keywords with the titles you're interested in
+    * NOTE: keywords that redirect to a single item will not work
 
 # Appendix
 

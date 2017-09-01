@@ -4,18 +4,18 @@ const Express = require('express');
 const Morgan = require('morgan');
 const rfs = require('rotating-file-stream');
 const bodyParser = require('body-parser');
-const unhold = require('./app/unhold');
 
-const logDirectory = path.join(__dirname, 'logs');
-const dataDirectory = path.join(__dirname, 'data');
-const notifyDirectory = path.join(__dirname, 'notify');
+// app modules
+const onshelf = require('./onshelf');
+const unhold = require('./unhold');
+
+// data directories
+const logDirectory = path.join(__dirname, '..', 'logs');
+const dataDirectory = path.join(__dirname, '..', 'data');
 
 // ensure directories exists
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 fs.existsSync(dataDirectory) || fs.mkdirSync(dataDirectory);
-fs.existsSync(notifyDirectory) || fs.mkdirSync(notifyDirectory);
-
-const app = Express();
 
 // create a rotating write stream
 const accessLogStream = rfs('access.log', {
@@ -23,14 +23,18 @@ const accessLogStream = rfs('access.log', {
   path: logDirectory
 });
 
+// instantiate Express app
+const app = Express();
 // express middleware
 app.use(Morgan('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
-app.use('/unhold', unhold);
+app.get('/onshelf/:keywords', onshelf);
+
+app.get('/unhold', unhold);
 
 app.get('*', (req, res) => {
-  res.send('Welcome!  We support /unhold.');
+  res.send('Welcome!  We support /unhold or /onshelf/:keywords with query of rsl (result size limit up to 300), branch, and sort.');
 });
 
 app.listen(1337);
