@@ -1,4 +1,3 @@
-const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const Express = require('express');
@@ -8,18 +7,16 @@ const config = require('./config.json');
 const app = Express.Router({ mergeParams : true });
 
 const itemsDB = path.join(__dirname, '../..', 'data/items.db');
-const messagesScript = path.join(__dirname, '../..', 'automation/imessage.sh');
 
 app.use((req, res) => {
   console.log(`${ Date.now()} ...setting ${ config.app } initial context...`);
   const context = { 
     availabilityCode: (typeof req.query.ac != "undefined") ? [ req.query.ac ] : config.availabilityCode,
     baseUrl: config.baseUrl,
-    branchIds: (typeof req.query.branch != "undefined" ) ? [ req.query.branch ] : config.branchIds,
+    branchIds: (typeof req.params.branchId != "undefined" ) ? [ req.params.branchId ] : config.branchIds,
     keywords: (typeof req.params.keywords != "undefined") ? [ req.params.keywords ] : config.keywords,
-    msgTo: (typeof req.query.m != "undefined" ) ? [ req.query.m ] : config.msgTo,
-    resultsSizeLimit: (typeof req.query.rsl != "undefined" && parseInt(req.query.rsl) < 301) ? [ req.query.rsl ] : config.resultsSizeLimit,
-    sortBy: (typeof req.query.sort != "undefined") ? [ req.query.sort ] : config.sortBy
+    resultsSizeLimit: (typeof req.query.size != "undefined" && req.query.size < 301) ? req.query.size : config.resultsSizeLimit,
+    sortBy: (typeof req.query.sort != "undefined") ? req.query.sort : config.sortBy
   };
   console.log(`${ Date.now()} building promise array...`);
   let promises = [];
@@ -35,13 +32,13 @@ app.use((req, res) => {
       "timestamp": timestamp,
       "items": results  
     };
+    
     console.log(`${ Date.now()} checking items.db...`);
     fs.access(itemsDB, fs.constants.F_OK, (err) => {
       // if db doesn't exist, create it
       if(err){
         console.log(`${ Date.now()} items.db does not exist, writing a new one...`);
-        const onshelfData = { "onshelf": [ promiseData ] };
-        fs.writeFile(itemsDB, JSON.stringify(onshelfData), (err) => {
+        fs.writeFile(itemsDB, JSON.stringify([ promiseData ]), (err) => {
             if (err) { throw err; }
             console.log(`${ Date.now()} items.db initialized...`);
             return;
@@ -51,27 +48,18 @@ app.use((req, res) => {
         fs.readFile(itemsDB, 'utf8', (err, fileData) => {
           if (err) { throw err; }
           // read and write same, soon merge...
-          const newData = JSON.parse(fileData);
-          if (typeof newData.onshelf != "undefined") {
-            newData.onshelf.push(promiseData);
-            // write over items.db with newly merged data
-            fs.writeFile(itemsDB, JSON.stringify(newData), (err) => {
-                if (err) { throw err; }
-                console.log(`${ Date.now()} items.db updated...`);
-                return;
-            });            
-          } else {
-            console.log(`${ Date.now()} first onshelf add, appending new data...`);
-            newData.onshelf = [ promiseData ];
-            fs.writeFile(itemsDB, JSON.stringify(newData), (err) => {
-                if (err) { throw err; }
-                console.log(`${ Date.now()} items.db updated...`);
-                return;
-            });
-          }
+          const fileJSON = JSON.parse(fileData);
+          fileJSON.push(promiseData);
+          // write over items.db with newly merged data
+          fs.writeFile(itemsDB, JSON.stringify(fileJSON), (err) => {
+              if (err) { throw err; }
+              console.log(`${ Date.now()} items.db updated...`);
+              return;
+          });
         });
       };
     });
+    
     const delim = "----";
     let formattedData = "";
     if ( promiseData.items.length > 0 ) {
@@ -87,6 +75,8 @@ app.use((req, res) => {
                 .replace('Cedar Mill Community Library', 'CMC')
                 .replace('Hillsboro Brookwood Library', 'HBW')
                 .replace('Hillsboro Shute Park Library', 'HSP')
+                .replace('Tigard Public Library', 'TIG')
+                .replace('Tualatin Public Library', 'TUA')                
               }${ delim }${ 
               branchTitle.title.replace(/\[videorecording\s+\(/, '')
                 .replace(/\[sound\srecording\s+\(/,'')
@@ -101,10 +91,8 @@ app.use((req, res) => {
     }
 
     const messageText = formattedData !== "" ? formattedData : "No Results...";
-    console.log(`${ Date.now()} executing message...`);
-    childProcess.exec(`${ messagesScript } ${ context.msgTo } "${ messageText }"`);
     console.log(`${ Date.now()} sending response...`);
-    res.send(messageText);
+    res.send( messageText );
 
   });
 });

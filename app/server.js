@@ -6,8 +6,9 @@ const rfs = require('rotating-file-stream');
 const bodyParser = require('body-parser');
 
 // app modules
-const onshelf = require('./onshelf');
-const unhold = require('./unhold');
+const news = require('./news');
+const now = require('./now');
+const status = require('./status');
 
 // data directories
 const logDirectory = path.join(__dirname, '..', 'logs');
@@ -29,12 +30,16 @@ const app = Express();
 app.use(Morgan('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
-app.get('/onshelf/:keywords', onshelf);
+app.get('/news', news);
 
-app.get('/unhold', unhold);
+app.get('/now/:keywords/:branchId', now);
+
+app.get('/now/:keywords', now);
+
+app.get('/status/:keywords', status);
 
 app.get('*', (req, res) => {
-  res.send('Welcome!  We support /unhold or /onshelf/:keywords with query of rsl (result size limit up to 300), branch, and sort.');
+  res.send('Welcome!  We support /news or /status/:keywords or /now/:keywords.');
 });
 
 app.listen(1337);

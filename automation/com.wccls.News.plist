@@ -5,12 +5,12 @@
 	<key>Disabled</key>
 	<false/>
 	<key>Label</key>
-	<string>com.wccls.Unhold</string>
+	<string>com.wccls.News</string>
 	<key>ProgramArguments</key>
 	<array>
 		<string>/bin/sh</string>
 		<string>-c</string>
-		<string>/usr/bin/env curl http://127.0.0.1:1337/unhold</string>
+		<string>/usr/bin/env curl http://127.0.0.1:1337/news</string>
 		<string>--periodic</string>
 	</array>
 	<key>RunAtLoad</key>
