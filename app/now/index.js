@@ -15,7 +15,7 @@ app.use((req, res) => {
     baseUrl: config.baseUrl,
     branchIds: (typeof req.params.branchId != "undefined" ) ? [ req.params.branchId ] : config.branchIds,
     keywords: (typeof req.params.keywords != "undefined") ? [ req.params.keywords ] : config.keywords,
-    resultsSizeLimit: (typeof req.query.size != "undefined" && req.query.size < 301) ? [ req.query.size ] : config.resultsSizeLimit,
+    resultsSizeLimit: (typeof req.query.size != "undefined" && req.query.size < 301) ? req.query.size : config.resultsSizeLimit,
     sortBy: (typeof req.query.sort != "undefined") ? req.query.sort : config.sortBy
   };
   console.log(`${ Date.now()} building promise array...`);
