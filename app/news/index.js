@@ -18,8 +18,8 @@ app.use((req, res) => {
     branchIds: (typeof req.query.branch != "undefined" ) ? [ req.query.branch ] : config.branchIds,
     keywords: (typeof req.params.keywords != "undefined") ? [ req.params.keywords ] : config.keywords,
     msgTo: (typeof req.query.m != "undefined" ) ? [ req.query.m ] : config.msgTo,
-    resultsSizeLimit: (typeof req.query.rsl != "undefined" && parseInt(req.query.rsl) < 301) ? [ req.query.rsl ] : config.resultsSizeLimit,
-    sortBy: (typeof req.query.sort != "undefined") ? [ req.query.sort ] : config.sortBy
+    resultsSizeLimit: (typeof req.query.size != "undefined" && req.query.size < 301) ? [ req.query.size ] : config.resultsSizeLimit,
+    sortBy: (typeof req.query.sort != "undefined") ? req.query.sort : config.sortBy
   };
   console.log(`${ Date.now()} building promise array...`);
   let promises = [];
@@ -40,8 +40,7 @@ app.use((req, res) => {
       // if db doesn't exist, create it
       if(err){
         console.log(`${ Date.now()} items.db does not exist, writing a new one...`);
-        const unholdableData = { "unholdables": [ promiseData ] };
-        fs.writeFile(itemsDB, JSON.stringify(unholdableData), (err) => {
+        fs.writeFile(itemsDB, JSON.stringify([ promiseData ]), (err) => {
             if (err) { throw err; }
             console.log(`${ Date.now()} items.db initialized...`);
             return;
@@ -51,24 +50,14 @@ app.use((req, res) => {
         fs.readFile(itemsDB, 'utf8', (err, fileData) => {
           if (err) { throw err; }
           // read and write same, soon merge...
-          const newData = JSON.parse(fileData);
-          if (typeof newData.unholdables != "undefined") {
-            newData.unholdables.push(promiseData);
-            // write over items.db with newly merged data
-            fs.writeFile(itemsDB, JSON.stringify(newData), (err) => {
-                if (err) { throw err; }
-                console.log(`${ Date.now()} items.db updated...`);
-                return;
-            });            
-          } else {
-            console.log(`${ Date.now()} first onshelf add, appending new data...`);
-            newData.unholdables = [ promiseData ];
-            fs.writeFile(itemsDB, JSON.stringify(newData), (err) => {
-                if (err) { throw err; }
-                console.log(`${ Date.now()} items.db updated...`);
-                return;
-            });
-          }
+          const fileJSON = JSON.parse(fileData);
+          fileJSON.push(promiseData);
+          // write over items.db with newly merged data
+          fs.writeFile(itemsDB, JSON.stringify(fileJSON), (err) => {
+              if (err) { throw err; }
+              console.log(`${ Date.now()} items.db updated...`);
+              return;
+          });
         });
       };
     });
@@ -87,6 +76,8 @@ app.use((req, res) => {
                 .replace('Cedar Mill Community Library', 'CMC')
                 .replace('Hillsboro Brookwood Library', 'HBW')
                 .replace('Hillsboro Shute Park Library', 'HSP')
+                .replace('Tigard Public Library', 'TIG')
+                .replace('Tualatin Public Library', 'TUA')
               }${ delim }${ 
               branchTitle.title.replace(/\[videorecording\s+\(/, '')
                 .replace(/\[sound\srecording\s+\(/,'')
@@ -103,7 +94,7 @@ app.use((req, res) => {
       childProcess.exec(`${ messagesScript } ${ context.msgTo } "${ formattedData }"`);
     }
     console.log(`${ Date.now()} sending response...`);
-    res.send(( formattedData !== "" ) ? formattedData : "No Results...");
+    res.send(( formattedData !== "" ) ? formattedData : "No News...");
   });
 });
 

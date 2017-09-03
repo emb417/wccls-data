@@ -16,25 +16,29 @@ Collecting availability data from [Washington County Cooperative Library Service
 
 ## Automation Setup
 Automation files are included for Mac OS X.
-* com.wccls.Unhold.plist (global LaunchAgent) curls the server at /unhold every 15 from 9-8 (open hours)
+* com.wccls.News.plist (global LaunchAgent) curls the server at /news every 15 from 9-8 (open hours)
 
 To setup plists, try LaunchControl for nice GUI experience, or show your 1337 skillz with cp and launchctl:
-* sudo cp com.wccls.Unhold.plist /Library/LaunchAgents/.
-* launchctl load /Library/LaunchAgents/com.wccls.Unhold.plist
+* sudo cp com.wccls.News.plist /Library/LaunchAgents/.
+* launchctl load /Library/LaunchAgents/com.wccls.News.plist
 
 Included is a shell script that interacts with messages on a mac:
 * imessage.sh is called by an index.js child_process
   * NOTE: make sure this script is executable (hint: chmod)
 
+# Global modules
+* server handles logging and routing
+* scraper "crawls" the site
+* parser uses cheerio to pull data out of the html
+
 # App Modules
 The app dir is divided into modules, each including:
 * a route in server.js
-* a named dir, e.g. unhold
+* a named dir, e.g. news
 * an index.js containing the express app
-* a scraper responsible for making the network calls
-* a parser using cheerio to pull data from the html
+* a config.json for default values 
 
-## Unholdables Module
+## News Module
   
 ### Config Setup
 * Modify config.json 
@@ -43,28 +47,27 @@ The app dir is divided into modules, each including:
   * keywords with the titles you're interested in
     * NOTE: keywords that redirect to a single item will not work
 
-# Appendix
-
-## Example API Usage (deprecated, for now)
+# Example API Usage
 
 ### Request:
-* curl http://127.0.0.1:1337/\?size\=5\&branch\=9\&filter\=In\&keyword\=ghost%20in%20the%20shell
+* curl http://127.0.0.1:1337/now/ps4/9?size=100&sort=MP
+
+#### Router
+* /now is the app route
 
 #### Keyword
-* terms or keywords used to search for titles
+* /ps4 is the terms or keywords used to search for titles
+
+#### Branch ID
+* /9 is the branch id for Beaverton City Library
 
 #### Size
 * search results size limit, bigger number means matching against more titles and longer to return results
 
-#### Branch IDs
-* 9: Beaverton City Library
-* 39: Beaverton Murray Scholls
-* 34: Cedar Mills Bethany Branch
-* 11: Cedar Mills Community Library
-* 20: Hillsboro Brookwood
-* 19: Hillsboro Shute Park
+#### Sort
+* supports "MP" for Most Popular or "RELEVANCE"
 
-#### Filters
+#### AC (Availability Code Filters)
 * In
 * In -- Not Holdable
 * Held
@@ -79,18 +82,21 @@ The app dir is divided into modules, each including:
 
 ### Response:
 ```javascript
-[
-  {
-    "title": "Passengers [videorecording (Blu-ray)]",
-    "branch": "Cedar Mill Bethany Branch Library",
-    "items": [
-      "In -- Not Holdable"
-    ]
-  }
-]
+----BCC----Star Wars battlefront game----In,Lost,Out (Due: 9/9/2017) -- Not Holdable
+----BCC----LEGO: Worlds game.----Out (Due: 9/9/2017),Out (Due: 9/6/2017),Out (Due: 9/9/2017) -- Not Holdable,Out (Due: 8/22/2017) -- Not Holdable,In
+----BCC----LEGO Marvel Avengers game.----In,In
+----BCC----LEGO Jurassic World game.----Lost,Out (Due: 9/3/2017),In,Out (Due: 9/6/2017),Lost -- Not Holdable
+----BCC----Hasbro family fun pack game : 4 great games in 1----In,Out (Due: 8/31/2017)
+----BCC----LEGO Marvel super heroes game.----In,Lost,Lost -- Not Holdable
+----BCC----Super cool tech : technology, invention, innovation----In,Out (Due: 9/18/2017)
+----BCC----Shantae game : 1/2 genie hero----In
+----BCC----Angry Birds. Star Wars game.----In
+----BCC----N.E.R.O. game : Nothing Ever Remains Obscure----In
+----BCC----Toki Tori 2+ game----In,In -- Not Holdable
+----BCC----Dragonball. Xenoverse XV game.----In,Lost,Lost -- Not Holdable,Lost,Lost -- Not Holdable
 ```
 
-### Appendix Notes
+# Appendix Notes
 
 Availability:
 https://catalog.wccls.org/Mobile/Search/Items/1.609225.1.9.1
