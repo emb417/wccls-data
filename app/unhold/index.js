@@ -87,13 +87,13 @@ app.use((req, res) => {
                 .replace('Cedar Mill Community Library', 'CMC')
                 .replace('Hillsboro Brookwood Library', 'HBW')
                 .replace('Hillsboro Shute Park Library', 'HSP')
-            }${ delim }${ 
+              }${ delim }${ 
               branchTitle.title.replace(/\[videorecording\s+\(/, '')
                 .replace(/\[sound\srecording\s+\(/,'')
                 .replace(/\[electronic\sresource\s+\(/,'')
                 .replace(/\)\]/,'')
-            }`;
-          };
+              }`; 
+            };
         });
       });      
     }
