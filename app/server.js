@@ -6,9 +6,9 @@ const rfs = require('rotating-file-stream');
 const bodyParser = require('body-parser');
 
 // app modules
-const status = require('./status');
 const news = require('./news');
 const now = require('./now');
+const status = require('./status');
 
 // data directories
 const logDirectory = path.join(__dirname, '..', 'logs');
@@ -30,20 +30,16 @@ const app = Express();
 app.use(Morgan('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
-app.get('/status/:keywords', status);
-
 app.get('/news', news);
-
-app.get('/now/:keywords/:branchId', now);
 
 app.get('/now/:keywords/:branchId', now);
 
 app.get('/now/:keywords', now);
 
-
+app.get('/status/:keywords', status);
 
 app.get('*', (req, res) => {
-  res.send('Welcome!  We support /news or /avail/:keywords or /pop/:keywords.');
+  res.send('Welcome!  We support /news or /status/:keywords or /now/:keywords.');
 });
 
 app.listen(1337);
