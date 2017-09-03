@@ -1,4 +1,3 @@
-const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const Express = require('express');
@@ -8,7 +7,6 @@ const config = require('./config.json');
 const app = Express.Router({ mergeParams : true });
 
 const itemsDB = path.join(__dirname, '../..', 'data/items.db');
-const messagesScript = path.join(__dirname, '../..', 'automation/imessage.sh');
 
 app.use((req, res) => {
   console.log(`${ Date.now()} ...setting ${ config.app } initial context...`);
@@ -17,8 +15,7 @@ app.use((req, res) => {
     baseUrl: config.baseUrl,
     branchIds: (typeof req.query.branch != "undefined" ) ? [ req.query.branch ] : config.branchIds,
     keywords: (typeof req.params.keywords != "undefined") ? [ req.params.keywords ] : config.keywords,
-    msgTo: (typeof req.query.m != "undefined" ) ? [ req.query.m ] : config.msgTo,
-    resultsSizeLimit: (typeof req.query.rsl != "undefined" && parseInt(req.query.rsl) < 301) ? [ req.query.rsl ] : config.resultsSizeLimit,
+    resultsSizeLimit: (typeof req.query.size != "undefined" && req.query.size < 301) ? [ req.query.size ] : config.resultsSizeLimit,
     sortBy: (typeof req.query.sort != "undefined") ? [ req.query.sort ] : config.sortBy
   };
   console.log(`${ Date.now()} building promise array...`);
@@ -101,10 +98,8 @@ app.use((req, res) => {
     }
 
     const messageText = formattedData !== "" ? formattedData : "No Results...";
-    console.log(`${ Date.now()} executing message...`);
-    childProcess.exec(`${ messagesScript } ${ context.msgTo } "${ messageText }"`);
     console.log(`${ Date.now()} sending response...`);
-    res.send(messageText);
+    res.send( messageText );
 
   });
 });
