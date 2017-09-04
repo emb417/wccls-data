@@ -6,6 +6,7 @@ const rfs = require('rotating-file-stream');
 const bodyParser = require('body-parser');
 
 // app modules
+const account = require('./account');
 const news = require('./news');
 const now = require('./now');
 const status = require('./status');
@@ -30,6 +31,10 @@ const app = Express();
 app.use(Morgan('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
+app.get('/due/:user/:pwd', account);
+
+app.get('/holds/:user/:pwd', account);
+
 app.get('/news', news);
 
 app.get('/now/:keywords/:branchId', now);
@@ -39,7 +44,14 @@ app.get('/now/:keywords', now);
 app.get('/status/:keywords', status);
 
 app.get('*', (req, res) => {
-  res.send('Welcome!  We support /news or /status/:keywords or /now/:keywords.');
+  res.send(
+`Welcome!  We support these texts:
+  1\) news to check not holdable list status \(only returns in items\)
+  2\) status\/\:keywords to give all statuses for top 20 most popular search results
+  3\) now\/\:keywords\/\:branchId to get only in items at branch
+  4\) due\/\:user\/\:pwd to get due dates for items checked out
+  5\) holds\/\:user\/\:pwd to get hold position for items requested`
+  );
 });
 
 app.listen(1337);

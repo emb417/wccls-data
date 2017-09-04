@@ -1,11 +1,7 @@
 {
-  "app": "AVAILABILITY STATUS",  
-  "keywords": [ 
-    "ps4",
-    "bluray"
-  ],
+  "app": "AVAILABILITY STATUS",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
-  "resultsSizeLimit": "20",
+  "resultsSizeLimit": "5",
   "sortBy": "RELEVANCE",
   "branchIdMap": {
     "Beaverton City Library (BCC)": 9,
