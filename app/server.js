@@ -5,7 +5,7 @@ log4js.configure({
     file: { type: 'file', filename: 'logs/server.log' } 
   },
   categories: { 
-    default: { appenders: ['file','console'], level: 'debug' } 
+    default: { appenders: ['file','console'], level: 'info' } 
   }
 });
 const logger = log4js.getLogger();
@@ -35,9 +35,11 @@ app.use(log4js.connectLogger(logger, { level: 'info' }));
 app.get('/add/:keywords', admin);
 app.get('/due/:user/:pwd', account);
 app.get('/holds/:user/:pwd', account);
+app.get('/list', admin);
 app.get('/news', news);
 app.get('/now/:keywords/:branchId', now);
 app.get('/now/:keywords', now);
+app.get('/remove/:keywords', admin);
 app.get('/status/:keywords', status);
 app.get('*', (req, res) => {
   res.send(
