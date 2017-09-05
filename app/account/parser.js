@@ -1,6 +1,5 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-logger.level = 'info';
 
 const cheerio = require('cheerio');
 const utils = require('../utils');
@@ -15,13 +14,13 @@ exports.dueDates = ( response ) => {
     if(i==0){ return; }
     let id, title, renewal, dueDate = '';
     
-    //logger.info(`element: ${$(element)}`);
+    logger.trace(`element: ${$(element)}`);
     const href = $(element).children().find('a').attr('href');
     id = href.substr(href.length-7);
     title = utils.cleanTitle($(element).find('a').text());
 
     const cells = `${$(element)}`.split('\<br\>');
-    logger.debug(`cells: ${ cells.length }`);
+    logger.trace(`cells: ${ cells.length }`);
       renewal = cells[1] ? cells[1].replace('&#xA0;',' ') : '';
       dueDate = cells[2] ? cells[2].substr(0, cells[2].indexOf('&#xA0;&#xA0;')).replace('&#xA0;',' ') : '';
 
@@ -41,7 +40,7 @@ exports.holdPositions = ( response ) => {
     if(i==0){ return; }
     let id, title, position = '';
     
-    //logger.info(`element: ${$(element)}`);
+    logger.trace(`element: ${$(element)}`);
     const href = $(element).children().find('a').attr('href');
     id = href.substr(href.length-7);
     title = utils.cleanTitle($(element).find('a').text());

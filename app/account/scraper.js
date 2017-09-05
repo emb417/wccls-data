@@ -1,16 +1,15 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-logger.level = 'info';
 
 const axios = require('axios');
 const parser = require('./parser.js');
 
 exports.scrape = ( context ) => {
   return new Promise( (resolve, reject) => {
-    logger.info(`start logon session...`);
+    logger.debug(`start logon session...`);
     axios.get(`${ context.logonUrl }`)
     .then( response => {
-      logger.info(`post logon creds...`);
+      logger.debug(`post logon creds...`);
       let c = '';
       if (response.headers['set-cookie'] instanceof Array) {
         c = response.headers['set-cookie'][0];
@@ -39,11 +38,11 @@ exports.scrape = ( context ) => {
                       })
         });
         
-        logger.info(`getting items...`);
+        logger.debug(`getting items...`);
         axios.all(promiseArray.map(p => p.catch(() => undefined)))
         .then( results => {
           
-          logger.info(`parsing html...`);
+          logger.debug(`parsing html...`);
           let items = [];
           results.map( r => {
             items = context.routePath === "/due/:user/:pwd" ? [ ...items, ...(parser.dueDates( r.data )) ]

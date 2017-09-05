@@ -1,6 +1,14 @@
 const log4js = require('log4js');
+log4js.configure({
+  appenders: { 
+    console: { type: 'console' },
+    app: { type: 'file', filename: 'logs/app.log' } 
+  },
+  categories: { 
+    default: { appenders: ['app','console'], level: 'debug' } 
+  }
+});
 const logger = log4js.getLogger();
-logger.level = 'info';
 
 const express = require('express');
 const config = require('./config.json');
@@ -9,7 +17,7 @@ const scraper = require('./scraper.js');
 const app = express.Router({ mergeParams : true });
 
 app.use((req, res) => {
-  logger.info(`...starting ${ config.app } initial context...`);
+  logger.info(`${ config.app } initial context based on ${ req.originalUrl }`);
   const context = { 
     routePath: req.route.path,
     logonUrl: config.logonUrl,
@@ -20,14 +28,14 @@ app.use((req, res) => {
     rememberMe: false
   };
 
-  logger.info(`getting results for msg...`);
+  logger.debug(`getting results for msg...`);
   scraper.scrape( context ).then( results => {
     // format for sms response
     const delim = "--";
     let formattedData = "";
     if ( results.length > 0 ) {
       
-      logger.info(`formatting results for msg...`);      
+      logger.debug(`formatting results for msg...`);      
       results.forEach( item => {
         formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
         formattedData += (context.routePath === "/due/:user/:pwd") ? 
@@ -37,7 +45,7 @@ app.use((req, res) => {
     }
     const messageText = formattedData !== "" ? formattedData : "No Results...";
     
-    logger.info(`sending response...`);
+    logger.debug(`sending response...`);
     res.send( messageText );
   });
 
