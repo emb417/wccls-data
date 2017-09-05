@@ -1,10 +1,14 @@
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+
 const cheerio = require('cheerio');
+const utils = require('../utils');
 
 exports.getAvailability = (response, context) => {
   const $ = cheerio.load(response);
   const obj = {};
-  obj.title = $('#main b').text();
-  obj.branch = $('#main .findit-branch-selected').text().substring(8);
+  obj.title = utils.cleanTitle($('#main b').text());
+  obj.branch = utils.cleanBranch($('#main .findit-branch-selected').text().substring(8));
   obj.items = $('#main .findit-item').map(function(i, el) {
     const findItemText = $(this).text();
     // availability is end of item text

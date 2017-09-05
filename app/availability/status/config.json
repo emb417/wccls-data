@@ -1,14 +1,8 @@
 {
-  "app": "NEWS",
-  "keywords": [
-    "guardians+of+the+galaxy+vol+2",
-    "wonder+woman+bluray",
-    "baywatch"
-  ],
-  "availabilityCode": "Not Holdable",
+  "app": "AVAILABILITY STATUS",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
-  "resultsSizeLimit": "10",
-  "sortBy": "MP",   
+  "resultsSizeLimit": "5",
+  "sortBy": "RELEVANCE",
   "branchIdMap": {
     "Beaverton City Library (BCC)": 9,
     "Beaverton Murray Scholls (BMS)": 39,
@@ -19,6 +13,5 @@
     "Tigard Public Library (TIG)": 29,
     "Tualatin Public Library (TUA)": 31
   },
-  "branchIds": [ 9, 39, 34, 11, 20, 19, 29, 31 ],
-  "msgTo": 6123847749  
+  "branchIds": [ 9, 39, 34, 11, 20, 19, 29, 31 ]
 }

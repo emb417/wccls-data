@@ -1,3 +1,6 @@
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+
 const axios = require('axios');
 const parser = require('./parser');
 
@@ -16,27 +19,33 @@ const availabilityUrls = ( context, response ) => {
 
 exports.scrape = ( keyword, context ) => {
   return new Promise( (resolve, reject) => {
-    console.log(`${ Date.now()} searching by keyword ${ keyword }...`);
-    // search by keyword to get ids
+
+    // search by keyword to get ids    
+    logger.debug(`searching by keyword ${ keyword }...`);
     axios.get( `${ context.baseUrl }/Results/?ls=1.${ context.resultsSizeLimit }.0.&o=${ context.sortBy }&t=${ keyword }` )
       .then( response => {
-        console.log(`${ Date.now()} mapping availabilityUrls...`);
+
         // build array from concurrent requests per item and branch combo
+        logger.debug(`mapping availabilityUrls...`);
         let promiseArray = availabilityUrls( context, response ).map( url => {
           return axios.get( url );
         });
-        console.log(`${ Date.now()} parsing availabilityUrls...`);
-        // once all concurrent requests are complete, parse results per response
+
+        // once all concurrent requests are complete, parse results per response        
+        logger.debug(`parsing availabilityUrls...`);
         axios.all(promiseArray.map(p => p.catch(() => undefined)))
         .then( results => {
-          console.log(`${ Date.now()} filtering availability...`);
+          
+          logger.debug(`filtering availability...`);
           let filteredAvailability = [];
           results.map( r => {
-            const availability = parser.getAvailability( r.data, context );
+
             // discard results that have no items
+            const availability = parser.getAvailability( r.data, context );
             if( availability.items.length > 0 ){
               filteredAvailability.push( availability );
             }
+            
             return;
           });
 

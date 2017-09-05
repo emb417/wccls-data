@@ -6,7 +6,7 @@
   ],
   "availabilityCode": "In",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
-  "resultsSizeLimit": "20",
+  "resultsSizeLimit": "500",
   "sortBy": "MP",
   "branchIdMap": {
     "Beaverton City Library (BCC)": 9,
