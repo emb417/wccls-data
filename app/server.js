@@ -16,6 +16,7 @@ const express = require('express');
 
 // app modules
 const account = require('./account');
+const admin = require('./admin');
 const news = require('./availability/news');
 const now = require('./availability/now');
 const status = require('./availability/status');
@@ -31,11 +32,14 @@ const app = express();
 app.use(log4js.connectLogger(logger, { level: 'info' }));
 
 // express routes
+app.get('/add/:keywords', admin);
 app.get('/due/:user/:pwd', account);
 app.get('/holds/:user/:pwd', account);
+app.get('/list', admin);
 app.get('/news', news);
 app.get('/now/:keywords/:branchId', now);
 app.get('/now/:keywords', now);
+app.get('/remove/:keywords', admin);
 app.get('/status/:keywords', status);
 app.get('*', (req, res) => {
   res.send(
