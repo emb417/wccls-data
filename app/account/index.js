@@ -1,13 +1,4 @@
 const log4js = require('log4js');
-log4js.configure({
-  appenders: { 
-    console: { type: 'console' },
-    app: { type: 'file', filename: 'logs/app.log' } 
-  },
-  categories: { 
-    default: { appenders: ['app','console'], level: 'debug' } 
-  }
-});
 const logger = log4js.getLogger();
 
 const express = require('express');
