@@ -58,7 +58,7 @@ app.use((req, res) => {
     
     if( formattedData !== "" ){
       logger.debug(`sending message...`);
-      childProcess.exec(`${ messagesScript } ${ context.msgTo } "No News...${ formattedData }"`);
+      childProcess.exec(`${ messagesScript } ${ context.msgTo } "${ formattedData }"`);
     }
     
     logger.debug(`sending response...`);
