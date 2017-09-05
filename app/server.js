@@ -5,7 +5,7 @@ log4js.configure({
     file: { type: 'file', filename: 'logs/server.log' } 
   },
   categories: { 
-    default: { appenders: ['file','console'], level: 'info' } 
+    default: { appenders: ['file','console'], level: 'debug' } 
   }
 });
 const logger = log4js.getLogger();
@@ -16,6 +16,7 @@ const express = require('express');
 
 // app modules
 const account = require('./account');
+const admin = require('./admin');
 const news = require('./availability/news');
 const now = require('./availability/now');
 const status = require('./availability/status');
@@ -31,6 +32,7 @@ const app = express();
 app.use(log4js.connectLogger(logger, { level: 'info' }));
 
 // express routes
+app.get('/add/:keywords', admin);
 app.get('/due/:user/:pwd', account);
 app.get('/holds/:user/:pwd', account);
 app.get('/news', news);

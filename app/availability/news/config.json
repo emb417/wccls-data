@@ -7,12 +7,14 @@
     "transformers+knight",
     "dead+men+bluray",
     "cars+bluray",
-    "gifted+video"
+    "gifted+video",
+    "wargames",
+    "tron+legacy"
   ],
   "availabilityCode": "Not Holdable",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
   "resultsSizeLimit": "5",
-  "sortBy": "MP",   
+  "sortBy": "MP",
   "branchIdMap": {
     "Beaverton City Library (BCC)": 9,
     "Beaverton Murray Scholls (BMS)": 39,
@@ -23,6 +25,15 @@
     "Tigard Public Library (TIG)": 29,
     "Tualatin Public Library (TUA)": 31
   },
-  "branchIds": [ 9, 39, 34, 11, 20, 19, 29, 31 ],
-  "msgTo": 6123847749  
+  "branchIds": [
+    9,
+    39,
+    34,
+    11,
+    20,
+    19,
+    29,
+    31
+  ],
+  "msgTo": 6123847749
 }
