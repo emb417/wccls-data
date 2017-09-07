@@ -1,9 +1,5 @@
 {
   "app": "MOST POPULAR",  
-  "keywords": [ 
-    "ps4",
-    "bluray"
-  ],
   "availabilityCode": "In",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
   "resultsSizeLimit": "500",

@@ -2,17 +2,18 @@
   "app": "NEWS",
   "keywords": [
     "guardians+of+the+galaxy+vol+2",
-    "wonder+woman+bluray",
+    "wonder+woman+live+action",
     "baywatch",
     "transformers+knight",
     "dead+men+bluray",
     "cars+bluray",
+    "baby+driver",
     "gifted+video"
   ],
   "availabilityCode": "Not Holdable",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
   "resultsSizeLimit": "5",
-  "sortBy": "MP",
+  "sortBy": "RELEVANCE",
   "branchIdMap": {
     "Beaverton City Library (BCC)": 9,
     "Beaverton Murray Scholls (BMS)": 39,
@@ -33,5 +34,5 @@
     29,
     31
   ],
-  "msgTo": 6123847749
+  "msgTo": "emb417@gmail.com"
 }

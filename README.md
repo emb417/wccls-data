@@ -45,7 +45,7 @@ The app dir is divided into modules, each including:
 ### Config Setup
 * Modify config.json 
   * branchIds with the ones you frequent
-  * msgTo with your messages number (or email address)
+  * msgTo with your messages email address (or phone number)
   * keywords with the titles you're interested in
     * NOTE: keywords that redirect to a single item will not work
 

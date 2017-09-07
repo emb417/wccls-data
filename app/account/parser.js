@@ -16,7 +16,7 @@ exports.dueDates = ( response ) => {
     
     logger.trace(`element: ${$(element)}`);
     const href = $(element).children().find('a').attr('href');
-    id = href.substr(href.length-7);
+    id = href.split( '/' )[4];
     title = utils.cleanTitle($(element).find('a').text());
 
     const cells = `${$(element)}`.split('\<br\>');
@@ -42,7 +42,7 @@ exports.holdPositions = ( response ) => {
     
     logger.trace(`element: ${$(element)}`);
     const href = $(element).children().find('a').attr('href');
-    id = href.substr(href.length-7);
+    id = href.split( '/' )[4];
     title = utils.cleanTitle($(element).find('a').text());
 
     position = $(element).children('td:nth-child(3)').text().replace(/\s*/g,'');

@@ -51,6 +51,7 @@ exports.scrape = ( keyword, context ) => {
 
           resolve(filteredAvailability);
         })
+        .catch( error => { reject(error) } );  
       })
       .catch( error => { reject(error) } );
   });

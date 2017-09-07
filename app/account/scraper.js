@@ -58,6 +58,7 @@ exports.scrape = ( context ) => {
 
           resolve( items );
         })
+        .catch( error => reject(error) );
       })
       .catch( error => reject(error) );
     })

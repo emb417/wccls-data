@@ -5,28 +5,28 @@ const express = require('express');
 const scraper = require('../scraper');
 const config = require('./config.json');
 
-const app = express.Router({ mergeParams : true });
+const app = express.Router( { mergeParams : true } );
 
-app.use((req, res) => {
+app.use( ( req, res ) => {
   
-  logger.info(`${ config.app } setting context based on ${ req.originalUrl }`);
+  logger.info( `${ config.app } setting context based on ${ req.originalUrl }` );
   const context = { 
-    availabilityCode: (typeof req.query.ac != "undefined") ? [ req.query.ac ] : config.availabilityCode,
+    availabilityCode: ( typeof req.query.ac != "undefined" ) ? [ req.query.ac ] : config.availabilityCode,
     baseUrl: config.baseUrl,
-    branchIds: (typeof req.params.branchId != "undefined" ) ? [ req.params.branchId ] : config.branchIds,
-    keywords: (typeof req.params.keywords != "undefined") ? [ req.params.keywords ] : config.keywords,
-    resultsSizeLimit: (typeof req.query.size != "undefined") ? req.query.size : config.resultsSizeLimit,
-    sortBy: (typeof req.query.sort != "undefined") ? req.query.sort : config.sortBy
+    branchIds: ( typeof req.params.branchId != "undefined" ) ? [ req.params.branchId ] : config.branchIds,
+    keywords: [ req.params.keywords ],
+    resultsSizeLimit: ( typeof req.query.size != "undefined" ) ? req.query.size : config.resultsSizeLimit,
+    sortBy: ( typeof req.query.sort != "undefined" ) ? req.query.sort : config.sortBy
   };
   
-  logger.debug(`building promise array...`);
+  logger.debug( `building promise array...` );
   let promises = [];
   context.keywords.forEach( keyword => {
-    promises.push(scraper.scrape( keyword, context ));
+    promises.push( scraper.scrape( keyword, context ) );
   });
   
-  logger.debug(`promise all...`);
-  Promise.all(promises.map(p => p.catch(() => undefined)))
+  logger.debug( `promise all...` );
+  Promise.all( promises.map( p => p.catch( () => undefined ) ) )
   .then( results => {
     
     const timestamp = Date.now();
@@ -38,10 +38,10 @@ app.use((req, res) => {
     const delim = "----";
     let formattedData = "";
     if ( promiseData.items.length > 0 ) {
-      logger.debug(`formatting results for msg...`);      
+      logger.debug( `formatting results for msg...` );      
       promiseData.items.forEach( branchTitles => {
         branchTitles.forEach( branchTitle => {
-          if(branchTitle.items.includes(context.availabilityCode)){
+          if ( branchTitle.items.includes( context.availabilityCode ) ) {
             formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
             formattedData += `${ branchTitle.branch }${ delim }${ branchTitle.title }${ delim }${ branchTitle.items }`;
           }
@@ -50,10 +50,11 @@ app.use((req, res) => {
     }
 
     const messageText = formattedData !== "" ? formattedData : "No Results...";
-    logger.debug(`sending response...`);
+    logger.debug( `sending response...` );
     res.send( messageText );
 
-  });
+  })
+  .catch( error => { res.send( error ) } );
 });
 
 module.exports = app;
