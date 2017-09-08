@@ -42,16 +42,25 @@ app.get('/remove/:keywords', admin);
 app.get('/status/:keywords', status);
 app.get('*', (req, res) => {
   res.send(
-`Welcome!  We support these texts:
+`The Dude is here to help.  The Dude only abides:
+
   1\) list to get not holdable list
+
   2\) add\/\:keywords to add to not holdable list
+
   3\) remove\/\:keywords to remove from not holdable list
+
   4\) news to manually invoke the check of not holdable list status \(only returns in items\)
+
   5\) status\/\:keywords to search for top 5 most relevant results and see availability
+
   6\) now\/\:keywords\/\:branchId to search for available titles at branch out of the 500 most popular results
+
   7\) due\/\:user\/\:pwd to get due dates for items checked out
+
   8\) holds\/\:user\/\:pwd to get hold position for items requested
-  9\) any other words will invoke this menu message`
+
+  9\) help to see this again`
   );
 });
 
