@@ -36,7 +36,7 @@ app.use( (req, res) => {
               logger.info( `news/config.json updated...` );
               return;
           });
-          res.send( `news/config.json updated...` );    
+          res.send( `${ fileJSON.keywords.join(`\n`) }` );    
         } 
         else if ( req.route.path.split( '/' )[1] === "remove" ) {
           const foundIndex = fileJSON.keywords.findIndex( ( keyword ) => {
@@ -49,7 +49,7 @@ app.use( (req, res) => {
               logger.info( `news/config.json updated...` );
               return;
           });
-          res.send( `news/config.json updated...` );          
+          res.send( `${ fileJSON.keywords.join(`\n`) }` );          
         }
         
       });
