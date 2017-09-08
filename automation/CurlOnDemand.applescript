@@ -10,27 +10,23 @@ Version: 1.0
 
 using terms from application "Messages"
 	
-	on curlServer(thePath)
-		set theResult to "Curling..."
-		do shell script "curl http://127.0.0.1:1337/" & thePath
-		return theResult
-	end curlServer
-	
 	-- handler to respond to all incoming messages.
 	on curlOnDemand(theMessage)
-		set theResponse to curlServer(theMessage)
-		return theResponse
+		if (theMessage is "list") or (theMessage is "help") or (theMessage is "news") or (theMessage starts with "due/") or (theMessage starts with "holds/") or (theMessage starts with "status/") or (theMessage starts with "now/") then
+			set theResponse to do shell script "curl http://127.0.0.1:1337/" & theMessage
+			return theResponse
+		end if
+		return "The Dude does not abide."
 	end curlOnDemand
-	
-	on received text invitation theMessage from theBuddy for theChat
-		set theResponse to curlOnDemand(theMessage)
-		send theResponse to theChat
-	end received text invitation
 	
 	on message received theMessage from theBuddy for theChat
 		set theResponse to curlOnDemand(theMessage)
 		send theResponse to theChat
 	end message received
+	
+	on received text invitation theMessage from theBuddy for theChat
+		
+	end received text invitation
 	
 	on active chat message received theMessage from theBuddy for theChat
 		set theResponse to curlOnDemand(theMessage)
@@ -38,13 +34,11 @@ using terms from application "Messages"
 	end active chat message received
 	
 	on addressed chat room message received theMessage from theBuddy for theChat
-		set theResponse to curlOnDemand(theMessage)
-		send theResponse to theChat
+		
 	end addressed chat room message received
 	
 	on addressed message received theMessage from theBuddy for theChat
-		set theResponse to curlOnDemand(theMessage)
-		send theResponse to theChat
+		
 	end addressed message received
 	
 	# The following are unused but need to be defined to avoid an error
