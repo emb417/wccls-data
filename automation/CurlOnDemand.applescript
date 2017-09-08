@@ -12,7 +12,7 @@ using terms from application "Messages"
 	
 	-- handler to respond to all incoming messages.
 	on curlOnDemand(theMessage)
-		if (theMessage is "list") or (theMessage is "help") or (theMessage is "news") or (theMessage starts with "due/") or (theMessage starts with "holds/") or (theMessage starts with "status/") or (theMessage starts with "now/") then
+		if (theMessage is "list") or (theMessage is "help") or (theMessage is "news") or (theMessage starts with "add/") or (theMessage starts with "remove/") or (theMessage starts with "due/") or (theMessage starts with "holds/") or (theMessage starts with "status/") or (theMessage starts with "now/") then
 			set theResponse to do shell script "curl http://127.0.0.1:1337/" & theMessage
 			return theResponse
 		end if
