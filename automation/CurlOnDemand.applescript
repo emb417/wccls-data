@@ -10,16 +10,23 @@ Version: 1.0
 
 using terms from application "Messages"
 	
-	-- handler to respond to all incoming messages.
+	on encodeMessage(theMessage)
+		set encodedMessage to theMessage
+		set encodedMessage to do shell script "echo " & quoted form of encodedMessage & " | sed -e 's/ ///'"
+		if (encodedMessage starts with "due/") or (encodedMessage starts with "holds/")
+			set encodedMessage to do shell script "echo " & quoted form of encodedMessage & " | sed -e 's/ ///'"
+		end if
+		set encodedMessage to do shell script "echo " & quoted form of encodedMessage & " | sed -e 's/ /+/g'"
+		return encodedMessage
+	end encodeMessage
+	
 	on curlOnDemand(theMessage)
-		if (theMessage does not contain " ") then
-			if (theMessage is "list") or (theMessage is "help") or (theMessage is "news") or (theMessage starts with "add/") or (theMessage starts with "remove/") or (theMessage starts with "due/") or (theMessage starts with "holds/") or (theMessage starts with "status/") or (theMessage starts with "now/") then
-				set theResponse to do shell script "curl http://127.0.0.1:1337/" & theMessage
+		set thePath to encodeMessage(theMessage)
+			if (thePath is "list") or (thePath is "help") or (thePath is "news") or (thePath starts with "add/") or (thePath starts with "remove/") or (thePath starts with "due/") or (thePath starts with "holds/") or (thePath starts with "find/") or (thePath starts with "status/") or (thePath starts with "now/") then
+				set theResponse to do shell script "curl http://127.0.0.1:1337/" & thePath
 				return theResponse
 			end if
-			return "The Dude does not abide that keyword. Try help."
-		end if
-		return "The Dude does not abide spaces.  Try with a + instead."
+			return "Yeah, well, that's just, like, your opinion, man."
 	end curlOnDemand
 	
 	on message received theMessage from theBuddy for theChat
@@ -27,14 +34,14 @@ using terms from application "Messages"
 		send theResponse to theChat
 	end message received
 	
-	on received text invitation theMessage from theBuddy for theChat
-		
-	end received text invitation
-	
 	on active chat message received theMessage from theBuddy for theChat
 		set theResponse to curlOnDemand(theMessage)
 		send theResponse to theChat
 	end active chat message received
+	
+	on received text invitation theMessage from theBuddy for theChat
+		
+	end received text invitation
 	
 	on addressed chat room message received theMessage from theBuddy for theChat
 		
@@ -43,9 +50,7 @@ using terms from application "Messages"
 	on addressed message received theMessage from theBuddy for theChat
 		
 	end addressed message received
-	
-	# The following are unused but need to be defined to avoid an error
-	
+		
 	on received audio invitation theText from theBuddy for theChat
 		
 	end received audio invitation
