@@ -1,11 +1,11 @@
 exports.cleanTitle = ( title ) => {
   return title.replace(/\[videorecording\s*\(\s*/, '')
     .replace(/\s*\[sound\srecording\s*\(\s*/,'')
-    .replace(/\s*\[electronic\sresource\s*\(\s*/,'')
-    .replace(/\s*\)\]\s*/,'')
+    .replace(/\s*\[electronic\sresource\s*\(game\)\]/,'')
     .replace(/\s*\[game\]\s*/,'')
     .replace(/\s*\[downloadable\saudiobook]\s*/,'')
-    .replace(/\s*\[downloadable\sebook]\s*/,'');
+    .replace(/\s*\[downloadable\sebook]\s*/,'')
+    .replace(/\)\]/,'');
 }
 
 exports.cleanBranch = ( branch ) => {

@@ -34,33 +34,34 @@ app.use(log4js.connectLogger(logger, { level: 'info' }));
 // express routes
 app.get('/add/:keywords', admin);
 app.get('/due/:user/:pwd', account);
+app.get('/find/:keywords', status);
 app.get('/holds/:user/:pwd', account);
 app.get('/list', admin);
 app.get('/news', news);
-app.get('/now/:keywords/:branchId', now);
+app.get('/now/:branchId/:keywords', now);
 app.get('/remove/:keywords', admin);
 app.get('/status/:keywords', status);
 app.get('*', (req, res) => {
   res.send(
-`The Dude is here to help.  The Dude only abides:
+`The Dude is here to help.  The Dude abides:
 
-  1\) list to get not holdable list
+  1\) "find keywords" to search for top 5 most relevant results and see availability
+  
+  2\) "news" to manually invoke the check of not holdable list status \(only returns in items\)
+  
+  3\) "list" to get not holdable list
 
-  2\) add\/\:keywords to add to not holdable list
+  4\) "add keywords" to add to not holdable list
 
-  3\) remove\/\:keywords to remove from not holdable list
+  5\) "remove keywords" to remove from not holdable list
 
-  4\) news to manually invoke the check of not holdable list status \(only returns in items\)
+  6\) "due barcode pin" to get due dates for items checked out
 
-  5\) status\/\:keywords to search for top 5 most relevant results and see availability
+  7\) "holds barcode pin" to get hold position for items requested
+  
+  8\) "now branchId keywords" to search for available titles at branch out of the 500 most popular results
 
-  6\) now\/\:keywords\/\:branchId to search for available titles at branch out of the 500 most popular results
-
-  7\) due\/\:user\/\:pwd to get due dates for items checked out
-
-  8\) holds\/\:user\/\:pwd to get hold position for items requested
-
-  9\) help to see this again`
+  9\) "help" to see this again`
   );
 });
 

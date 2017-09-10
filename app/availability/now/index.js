@@ -49,7 +49,7 @@ app.use( ( req, res ) => {
       });
     }
 
-    const messageText = formattedData !== "" ? formattedData : "No Results...";
+    const messageText = formattedData !== "" ? formattedData : "{}";
     logger.debug( `sending response...` );
     res.send( messageText );
 
