@@ -54,7 +54,7 @@ app.use( ( req, res ) => {
     }
     
     logger.debug(`sending response...`);
-    res.send( ( formattedData !== "" ) ? formattedData : "No News..." );
+    res.send( ( formattedData !== "" ) ? formattedData : "{}" );
   })
   .catch( error => { res.send( error ) } );
 });
