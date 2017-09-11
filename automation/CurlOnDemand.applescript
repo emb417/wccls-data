@@ -40,7 +40,7 @@ using terms from application "Messages"
 			set theMessage to do shell script "echo " & quoted form of theMessage & " | sed -e 's/[wW]here is/find/'"
 		end if
 		set thePath to encodeMessage(theMessage)
-		if (thePath is "list") or (thePath is "help") or (thePath is "news") or (thePath starts with "add/") or (thePath starts with "remove/") or (thePath starts with "due/") or (thePath starts with "holds/") or (thePath starts with "find/") or (thePath starts with "status/") or (thePath starts with "now/") then
+		if (thePath is "branches") or (thePath is "list") or (thePath is "help") or (thePath is "news") or (thePath starts with "add/") or (thePath starts with "remove/") or (thePath starts with "due/") or (thePath starts with "holds/") or (thePath starts with "find/") or (thePath starts with "status/") or (thePath starts with "now/") then
 			set theResponse to do shell script "curl http://127.0.0.1:1337/" & thePath
 			if (theResponse is "{}") then
 				return "This aggression will not stand, man."
