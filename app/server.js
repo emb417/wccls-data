@@ -35,25 +35,19 @@ app.use(log4js.connectLogger(logger, { level: 'info' }));
 app.get('/add/:keywords', admin);
 app.get('/branches', ( req, res ) => {
   res.send(
-`BCC: Beaverton City Library (9)
+`BCC: Beaverton City Center (9)
 BMS: Beaverton Murray Scholls (39)
-CMB: Cedar Mills Bethany Branch (34)
-CMC: Cedar Mills Community Library (11)
+CMB: Cedar Mills Bethany (34)
+CMC: Cedar Mills Community (11)
 HBW: Hillsboro Brookwood (20)
 HSB: Hillsboro Shute Park (19)
-TIG: Tigard Public Library (29)
-TUA: Tualatin Public Library (31)`
+TIG: Tigard (29)
+TUA: Tualatin (31)`
   );
 });
 app.get('/due/:user/:pwd', account);
 app.get('/find/:keywords', status);
-app.get('/holds/:user/:pwd', account);
-app.get('/list', admin);
-app.get('/news', news);
-app.get('/now/:branchId/:keywords', now);
-app.get('/remove/:keywords', admin);
-app.get('/status/:keywords', status);
-app.get('*', ( req, res ) => {
+app.get('/help', ( req, res ) => {
   res.send(
 `The Dude is here to help.  The Dude abides:
 
@@ -71,10 +65,19 @@ app.get('*', ( req, res ) => {
 
   7\) "holds barcode pin" to get hold position for items requested
   
-  8\) "now branchId keywords" to search for available titles at branch out of the 500 most popular results
+  8\) "now branch keywords" to search for available titles at a branch out of the 500 most popular results
+  
+  9\) "branches" to see abbreviation and (id) per branch
 
-  9\) "help" to see this again`
+  10\) "help" to see this again`
   );
 });
+app.get('/holds/:user/:pwd', account);
+app.get('/list', admin);
+app.get('/news', news);
+app.get('/now/:branchId/:keywords', now);
+app.get('/remove/:keywords', admin);
+app.get('/status/:keywords', status);
+app.get('*', ( req, res ) => { res.send( `The Dude does not abide!` ); });
 
 app.listen(1337, logger.info('server started'));
