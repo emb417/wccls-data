@@ -33,6 +33,18 @@ app.use(log4js.connectLogger(logger, { level: 'info' }));
 
 // express routes
 app.get('/add/:keywords', admin);
+app.get('/branches', ( req, res ) => {
+  res.send(
+`BCC: Beaverton City Library (9)
+BMS: Beaverton Murray Scholls (39)
+CMB: Cedar Mills Bethany Branch (34)
+CMC: Cedar Mills Community Library (11)
+HBW: Hillsboro Brookwood (20)
+HSB: Hillsboro Shute Park (19)
+TIG: Tigard Public Library (29)
+TUA: Tualatin Public Library (31)`
+  );
+});
 app.get('/due/:user/:pwd', account);
 app.get('/find/:keywords', status);
 app.get('/holds/:user/:pwd', account);
@@ -41,7 +53,7 @@ app.get('/news', news);
 app.get('/now/:branchId/:keywords', now);
 app.get('/remove/:keywords', admin);
 app.get('/status/:keywords', status);
-app.get('*', (req, res) => {
+app.get('*', ( req, res ) => {
   res.send(
 `The Dude is here to help.  The Dude abides:
 

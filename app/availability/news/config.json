@@ -17,14 +17,14 @@
   "resultsSizeLimit": "5",
   "sortBy": "RELEVANCE",
   "branchIdMap": {
-    "Beaverton City Library (BCC)": 9,
-    "Beaverton Murray Scholls (BMS)": 39,
-    "Cedar Mills Bethany Branch (CMB)": 34,
-    "Cedar Mills Community Library(CMC)": 11,
-    "Hillsboro Brookwood (HBW)": 20,
-    "Hillsboro Shute Park (HSP)": 19,
-    "Tigard Public Library (TIG)": 29,
-    "Tualatin Public Library (TUA)": 31
+    "bcc": 9,
+    "bms": 39,
+    "cmb": 34,
+    "cmc": 11,
+    "hbw": 20,
+    "hsp": 19,
+    "tig": 29,
+    "tua": 31
   },
   "branchIds": [
     9,

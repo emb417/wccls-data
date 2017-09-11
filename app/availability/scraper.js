@@ -10,7 +10,10 @@ const availabilityUrls = ( context, response ) => {
   // construct urls for all items and branches combos
   for ( const itemId of parser.getIds( response.data ) ) {
     for ( const branchId of context.branchIds ) {
-      urls.push( `${ context.baseUrl }/Items/1.${ itemId }.1.${ branchId }.1` );
+      logger.trace(`branchId ${ branchId }...`);
+      logger.trace(`context.branchIdMap ${ JSON.stringify(context.branchIdMap) }...`);
+      logger.trace(`context.branchIdMap[branchId] ${ context.branchIdMap[branchId] }...`);
+      urls.push( `${ context.baseUrl }/Items/1.${ itemId }.1.${ /^\d+$/.test(branchId) ? branchId : context.branchIdMap[branchId] }.1` );
     };
   }
   
@@ -28,6 +31,7 @@ exports.scrape = ( keyword, context ) => {
         // build array from concurrent requests per item and branch combo
         logger.debug(`mapping availabilityUrls...`);
         let promiseArray = availabilityUrls( context, response ).map( url => {
+          logger.trace(`availabilityUrls: ${ url }`);
           return axios.get( url );
         });
 

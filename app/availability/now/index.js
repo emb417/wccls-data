@@ -14,6 +14,7 @@ app.use( ( req, res ) => {
     availabilityCode: ( typeof req.query.ac != "undefined" ) ? [ req.query.ac ] : config.availabilityCode,
     baseUrl: config.baseUrl,
     branchIds: ( typeof req.params.branchId != "undefined" ) ? [ req.params.branchId ] : config.branchIds,
+    branchIdMap: config.branchIdMap,
     keywords: [ req.params.keywords ],
     resultsSizeLimit: ( typeof req.query.size != "undefined" ) ? req.query.size : config.resultsSizeLimit,
     sortBy: ( typeof req.query.sort != "undefined" ) ? req.query.sort : config.sortBy

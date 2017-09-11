@@ -13,6 +13,7 @@ app.use( ( req, res ) => {
   const context = { 
     baseUrl: config.baseUrl,
     branchIds: ( typeof req.query.branch != "undefined" ) ? [ req.query.branch ] : config.branchIds,
+    branchIdMap: config.branchIdMap,
     keywords: [ req.params.keywords ],
     resultsSizeLimit: ( typeof req.query.size != "undefined" ) ? req.query.size : config.resultsSizeLimit,
     sortBy: ( typeof req.query.sort != "undefined" ) ? req.query.sort : config.sortBy
