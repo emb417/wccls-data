@@ -24,16 +24,16 @@ using terms from application "Messages"
 		if (theMessage starts with "what games") or (theMessage starts with "what ps4") then
 			set theMessage to "now/39/ps4"
 		end if
-		if (theMessage starts with "what am i") or (theMessage starts with "whats on") then
+		if (theMessage starts with "what am i") or (theMessage starts with "what's on") then
 			set theMessage to "list"
 		end if
-		if (theMessage starts with "when") or (theMessage starts with "whats due") then
+		if (theMessage starts with "when") or (theMessage starts with "what's due") then
 			set theMessage to "due/1234567890/1234"
 		end if
-		if (theMessage starts with "whats requested") or (theMessage starts with "what are") then
+		if (theMessage starts with "what's requested") or (theMessage starts with "what are") then
 			set theMessage to "holds/1234567890/1234"
 		end if
-		if (theMessage starts with "whats up") then
+		if (theMessage starts with "what's up") then
 			set theMessage to "news"
 		end if
 		if (theMessage starts with "where is") then
