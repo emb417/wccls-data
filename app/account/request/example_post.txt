@@ -1,0 +1,16 @@
+https://catalog.wccls.org/Mobile/Holds/Create
+
+Referer:https://catalog.wccls.org/Mobile/Search/Title/3.5.13.2938183
+
+Post: https://catalog.wccls.org/Mobile/Holds/CreateRequest
+Content-Type:application/x-www-form-urlencoded
+Form Data:
+pickupBranch:39
+activationDate:9/10/2017
+button:Submit Request
+
+
+https://catalog.wccls.org/Mobile/Holds/ConditionalResponse
+
+Form Data:
+button:Yes

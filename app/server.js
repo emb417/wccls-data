@@ -77,6 +77,8 @@ app.get('/list', admin);
 app.get('/news', news);
 app.get('/now/:branchId/:keywords', now);
 app.get('/remove/:keywords', admin);
+// app.get('/renew/:item', account);
+// app.get('/request/:item', account);
 app.get('/status/:keywords', status);
 app.get('*', ( req, res ) => { res.send( `The Dude does not abide!` ); });
 
