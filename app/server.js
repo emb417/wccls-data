@@ -17,9 +17,11 @@ const express = require('express');
 // app modules
 const account = require('./account');
 const admin = require('./admin');
+const hours = require('./hours');
 const news = require('./availability/news');
 const now = require('./availability/now');
 const status = require('./availability/status');
+
 
 // data directory
 const logDirectory = path.join(__dirname, '..', 'logs');
@@ -68,11 +70,17 @@ app.get('/help', ( req, res ) => {
   8\) "now branch keywords" to search for available titles at a branch out of the 500 most popular results
   
   9\) "branches" to see abbreviation and (id) per branch
+  
+  10\) "hours branch" to see hours per branch
+  
+  11\) "hours" to see hours for home branch in config
 
-  10\) "help" to see this again`
+  12\) "help" to see this again`
   );
 });
 app.get('/holds/:user/:pwd', account);
+app.get('/hours/:branchId', hours);
+app.get('/hours', hours);
 app.get('/list', admin);
 app.get('/news', news);
 app.get('/now/:branchId/:keywords', now);
