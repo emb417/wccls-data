@@ -27,8 +27,7 @@ exports.scrape = ( context ) => {
         }
       })
       .then( response => {
-        const urls = ( context.routePath === "/due/:user/:pwd" ) ? context.itemsOutUrls : context.holdsUrls;
-        let promiseArray = urls.map( url => {
+        let promiseArray = context.createHoldUrl.map( url => {
           return axios({
                         method: 'get',
                         url: `${ url }`,
@@ -37,11 +36,11 @@ exports.scrape = ( context ) => {
                         }
                       })
         });
-        
+
         logger.debug(`getting items...`);
         axios.all(promiseArray.map(p => p.catch(() => undefined)))
         .then( results => {
-          
+
           logger.debug(`parsing html...`);
           let items = [];
           results.map( r => {
@@ -53,7 +52,7 @@ exports.scrape = ( context ) => {
             // sort by position
             items.sort( (a, b) => {
               return a.position - b.position;
-            });            
+            });
           }
 
           resolve( items );
