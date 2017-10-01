@@ -17,6 +17,8 @@ const express = require('express');
 // app modules
 const account = require('./account');
 const admin = require('./admin');
+//const cancelHold = require('./account/cancelHold');
+//const createHold = require('./createHold');
 const news = require('./availability/news');
 const now = require('./availability/now');
 const status = require('./availability/status');
@@ -73,8 +75,8 @@ app.get('/help', ( req, res ) => {
   );
 });
 app.get('/holds/:user/:pwd', account);
-app.get('/holds/:user/:pwd/add/:item', account);
-app.get('/holds/:user/:pwd/cancel/:item', account);
+//app.get('/holds/:user/:pwd/add/:item', createHold);
+//app.get('/holds/:user/:pwd/cancel/:item', cancelHold);
 app.get('/list', admin);
 app.get('/news', news);
 app.get('/now/:branchId/:keywords', now);

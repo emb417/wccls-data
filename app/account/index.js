@@ -4,41 +4,29 @@ const logger = log4js.getLogger();
 const express = require('express');
 const config = require('./config.json');
 const scraper = require('./scraper.js');
+const format = require('./format.js');
 
 const app = express.Router( { mergeParams : true } );
 
 app.use( ( req, res ) => {
   logger.info( `${ config.app } initial context based on ${ req.originalUrl }` );
+  const urlsMap = {
+    "/due/:user/:pwd": config.itemsOutUrls,
+    "/holds/:user/:pwd": config.holdsUrls
+  }
   const context = {
     barcodeOrUsername: req.params.user,
     logonUrl: config.logonUrl,
     password: req.params.pwd,
     rememberMe: false,
+    urls: urlsMap[req.route.path],
     routePath: req.route.path
   };
-  const urlsMap = {
-    "/holds/:user/:pwd/add/:item": config.createHoldUrl,
-    "/holds/:user/:pwd": config.holdsUrls,
-    "/due/:user/:pwd": config.itemsOutUrls
-  }
-  context.urls = urlsMap[context.routePath];
 
   logger.debug( `getting results for msg...` );
   scraper.scrape( context ).then( results => {
-    // format for sms response
-    const delim = "--";
-    let formattedData = "";
-    if ( results.length > 0 ) {
 
-      logger.debug( `formatting results for msg...` );
-      results.forEach( item => {
-        formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
-        formattedData += ( context.routePath === "/due/:user/:pwd" ) ?
-                        `${ item.dueDate }${ delim }${ item.id }${ delim }${ item.title }${ delim }${ item.renewal }` :
-                        `${ item.position }${ delim }${ item.id }${ delim }${ item.title }`;
-      });
-    }
-    const messageText = formattedData !== "" ? formattedData : "No Results...";
+    const messageText = results.length > 0 ? format.textMessage(results) : "No Results...";
 
     logger.debug( `sending response...` );
     res.send( messageText );

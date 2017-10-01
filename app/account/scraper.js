@@ -48,6 +48,7 @@ exports.scrape = ( context ) => {
                                                             : [ ...items, ...(parser.holdPositions( r.data )) ];
             return;
           });
+          
           if(context.routePath === "/holds/:user/:pwd"){
             // sort by position
             items.sort( (a, b) => {
