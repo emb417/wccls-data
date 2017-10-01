@@ -8,6 +8,7 @@ const express = require('express');
 const config = require('./config.json');
 const scraper = require('../scraper');
 const parser = require('../parser');
+const format = require('../format.js');
 const branchIdMap = require('../../utils.js').branchIdMap;
 
 const messagesScript = path.join( __dirname, '../../..', 'automation/imessage.sh' );
@@ -34,36 +35,17 @@ app.use( ( req, res ) => {
   Promise.all( promises.map( p => p.catch( () => undefined ) ) )
   .then( results => {
 
-    const timestamp = Date.now();
-    const promiseData = {
-      "timestamp": timestamp,
-      "items": results
-    };
+    logger.trace( `promise all results: ${ JSON.stringify(results) }` );
+    logger.debug( `formatting results for text messsage...` );
+    const messageText = format.newsTextMessage( results, context.availabilityCode );
 
-    const delim = "----";
-    let formattedData = "";
-    if ( promiseData.items.length > 0 ) {
-
-      logger.debug( `formatting results for message...` );
-      promiseData.items.forEach( branchTitles => {
-        logger.trace( `branchTitles: ${ JSON.stringify(branchTitles) }` );
-        branchTitles.forEach( branchTitle => {
-          logger.trace( `branchTitle: ${ JSON.stringify(branchTitle) }` );
-          if ( branchTitle.items.includes( `In -- ${ context.availabilityCode }` ) ){
-            formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
-            formattedData += `${ branchTitle.branch }${ delim }${ branchTitle.title }`;
-          };
-        });
-      });
-    }
-
-    if( formattedData !== "" ){
-      logger.debug( `sending message...` );
-      childProcess.exec( `${ messagesScript } ${ context.msgTo } "${ formattedData }"` );
+    if( messageText ){
+      logger.debug( `sending text message...` );
+      childProcess.exec( `${ messagesScript } ${ context.msgTo } "${ messageText }"` );
     }
 
     logger.debug(`sending response...`);
-    res.send( ( formattedData !== "" ) ? formattedData : "{}" );
+    res.send( messageText || "{}" );
   })
   .catch( error => { res.send( error ) } );
 });

@@ -32,11 +32,8 @@ app.use( ( req, res ) => {
   Promise.all( promises.map( p => p.catch( () => undefined ) ) )
   .then( results => {
     logger.trace( `promise all results: ${ JSON.stringify(results) }` );
-    logger.debug( `formatting results for text messsage...` );
-    const messageText = results.length > 0 ? format.statusTextMessage( results ) : "No Results...";
-
-    logger.debug( `sending response...` );
-    res.send( messageText );
+    logger.debug( `formatting and sending text messsage...` );
+    res.send( format.statusTextMessage( results ) || "{}" );
   })
   .catch( error => { res.send( error ) } );
 });
