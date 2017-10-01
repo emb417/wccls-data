@@ -1,15 +1,16 @@
 {
   "app": "NEWS",
   "keywords": [
-    "guardians+of+the+galaxy+vol+2",
-    "wonder+woman+live+action",
-    "baywatch",
-    "transformers+knight",
-    "dead+men+bluray",
-    "cars+bluray",
-    "baby+driver",
-    "spider+man+bluray",
-    "hitmans+bodyguard"
+    "atomic+blonde+bluray",
+    "transformers+the+last+knight+bluray",
+    "pirates+of+the+caribbean+dead+men+tell+bluray",
+    "cars+3+bluray",
+    "valerian+and+the+city+of+a+thousand+planets+bluray",
+    "war+for+the+planet+of+the+apes+bluray",
+    "spider+man+homecoming+bluray",
+    "hitmans+bodyguard+bluray",
+    "baby+driver+bluray",
+    "office+christmas+party+bluray"
   ],
   "availabilityCode": "Not Holdable",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
@@ -29,11 +30,7 @@
     9,
     39,
     34,
-    11,
-    20,
-    19,
-    29,
-    31
+    11
   ],
   "msgTo": "emb417@gmail.com"
 }

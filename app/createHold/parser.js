@@ -2,7 +2,7 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 
 const cheerio = require('cheerio');
-const utils = require('../utils');
+const utils = require('../../utils');
 
 exports.dueDates = ( response ) => {
   const $ = cheerio.load( response );
