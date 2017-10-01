@@ -49,15 +49,18 @@ exports.getIds = (response) => {
       const id = href.substr(href.lastIndexOf(".")+1);
       ids.push(id);
   });
-  logger.trace(`ids: ${ ids }`);
+  logger.trace(`search results ids: ${ ids }`);
+
   //check for single result redirect to detail page
-  $('#main').each(function(i, element) {
-      logger.trace(`element attr id`);
-      const id = $(this).find('span').attr('id').split('_')[1];
-      logger.trace(`element attr id: ${ id }`);
-      ids.push(id);
-  });
-  logger.trace(`ids: ${ ids }`);
+  if(ids.length === 0){
+    $('#main').each(function(i, element) {
+        const id = $(this).find('span').attr('id').split('_')[1];
+        logger.trace(`element attr id: ${ id }`);
+        ids.push(id);
+    });
+    logger.trace(`single search result ids: ${ ids }`);
+  }
+
 
   return ids;
 };

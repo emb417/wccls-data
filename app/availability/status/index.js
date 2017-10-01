@@ -5,6 +5,7 @@ const express = require('express');
 const config = require('./config.json');
 const scraper = require('../scraper');
 const parser = require('../parser');
+const format = require('../format.js');
 const branchIdMap = require('../../utils.js').branchIdMap;
 
 const app = express.Router( { mergeParams : true } );
@@ -23,35 +24,19 @@ app.use( ( req, res ) => {
   logger.debug( `building promise array...` );
   let promises = [];
   context.keywords.forEach( keyword => {
+    logger.trace( `promise for: ${ keyword }` );
     promises.push( scraper.get( keyword, context ) );
   });
 
   logger.debug( `promise all...` );
   Promise.all( promises.map( p => p.catch( () => undefined ) ) )
   .then( results => {
+    logger.trace( `promise all results: ${ JSON.stringify(results) }` );
+    logger.debug( `formatting results for text messsage...` );
+    const messageText = results.length > 0 ? format.statusTextMessage( results ) : "No Results...";
 
-    const timestamp = Date.now();
-    const promiseData = {
-      "timestamp": timestamp,
-      "items": results
-    };
-
-    const delim = "----";
-    let formattedData = "";
-    if ( promiseData.items.length > 0 ) {
-      logger.debug(`formatting results for message...`);
-      promiseData.items.forEach( branchTitles => {
-        branchTitles.forEach( branchTitle => {
-          formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
-          formattedData += `${ branchTitle.branch }${ delim }${ branchTitle.itemId }${ delim }${ branchTitle.title }${ delim }${ branchTitle.items }`;
-        });
-      });
-    }
-
-    const messageText = formattedData !== "" ? formattedData : "No Results...";
     logger.debug( `sending response...` );
     res.send( messageText );
-
   })
   .catch( error => { res.send( error ) } );
 });
