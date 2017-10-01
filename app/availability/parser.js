@@ -18,6 +18,7 @@ exports.getAvailability = (response, context) => {
       `${ itemAvailabilityText } -- Not Holdable` : itemAvailabilityText;
     return formattedAvailability;
   }).get();
+  obj.itemId = $('#breadcrumbs a').last().attr('href').split('.').pop();
 
   return obj;
 };
@@ -37,8 +38,8 @@ exports.getIds = (response) => {
       const id = $(this).find('span').attr('id').split('_')[1];
       logger.trace(`element attr id: ${ id }`);
       ids.push(id);
-  });    
+  });
   logger.trace(`ids: ${ ids }`);
-  
+
   return ids;
 };

@@ -17,8 +17,7 @@ const express = require('express');
 // app modules
 const account = require('./account');
 const admin = require('./admin');
-//const cancelHold = require('./account/cancelHold');
-//const createHold = require('./createHold');
+const createHold = require('./createHold');
 const hours = require('./hours');
 const news = require('./availability/news');
 const now = require('./availability/now');
@@ -53,9 +52,9 @@ app.get('/due/:user/:pwd', account);
 app.get('/find/:keywords', status);
 app.get('/help', ( req, res ) => {
   res.send(
-`The Dude is here to help.  The Dude abides:
+`The Dude abides:
 
-  1\) "find keywords" to search for top 5 most relevant results and see availability
+  1\) "where is keywords" to search for top 5 most relevant results and see availability
 
   2\) "news" to manually invoke the check of not holdable list status \(only returns in items\)
 
@@ -81,8 +80,7 @@ app.get('/help', ( req, res ) => {
   );
 });
 app.get('/holds/:user/:pwd', account);
-//app.get('/holds/:user/:pwd/add/:item', createHold);
-//app.get('/holds/:user/:pwd/cancel/:item', cancelHold);
+app.get('/holds/:user/:pwd/add/:item/branch/:branchId', createHold);
 app.get('/hours/:branchId', hours);
 app.get('/hours', hours);
 app.get('/list', admin);
