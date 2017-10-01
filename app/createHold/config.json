@@ -1,15 +1,5 @@
 {
-  "app": "CREATE HOLD",
-  "branchIdMap": {
-    "bcc": 9,
-    "bms": 39,
-    "cmb": 34,
-    "cmc": 11,
-    "hbw": 20,
-    "hsp": 19,
-    "tig": 29,
-    "tua": 31
-  },  
+  "app": "CREATE HOLD", 
   "createHoldUrl": "https://catalog.wccls.org/Mobile/Holds/Create",
   "createHoldRequestUrl": "https://catalog.wccls.org/Mobile/Holds/CreateRequest",
   "conditionalResponseUrl": "https://catalog.wccls.org/Mobile/Holds/ConditionalResponse",

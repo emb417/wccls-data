@@ -5,15 +5,15 @@ const express = require('express');
 
 const config = require('./config.json');
 const scraper = require('./scraper.js');
+const branchIdMap = require('../utils.js').branchIdMap;
 
 const app = express.Router( { mergeParams : true } );
 
 app.use( ( req, res ) => {
   logger.info( `${ config.app } initial context based on ${ req.originalUrl }` );
-  const branchId = /^\d+$/.test(req.params.branchId) ? req.params.branchId : config.branchIdMap[req.params.branchId.toLowerCase()];
   const context = {
     ...config,
-    branchId,
+    branchId: branchIdMap(req.params.branchId),
     itemId: req.params.item,
     logonCreds: {
       barcodeOrUsername: req.params.user,

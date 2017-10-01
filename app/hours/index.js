@@ -6,6 +6,7 @@ const config = require('./config.json');
 const scraper = require('./scraper.js');
 const parser = require('./parser.js');
 const format = require('./format.js');
+const branchIdMap = require('../utils.js').branchIdMap;
 
 const app = express.Router( { mergeParams : true } );
 
@@ -14,7 +15,7 @@ app.use( ( req, res ) => {
   const branchId = ( typeof req.params.branchId != "undefined" ) ? req.params.branchId : config.homeBranchId;
   const context = {
     ...config,
-    branchId: ( /^\d+$/.test(branchId) ) ? branchId : config.branchIdMap[branchId],
+    branchId: branchIdMap(branchId),
     parser: parser.hours
   };
 
