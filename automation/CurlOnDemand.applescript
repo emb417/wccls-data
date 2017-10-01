@@ -24,23 +24,23 @@ using terms from application "Messages"
 		if (theMessage starts with "what games") or (theMessage starts with "what ps4") then
 			set theMessage to "now/39/ps4"
 		end if
-		if (theMessage starts with "what am i") or (theMessage starts with "whats on") then
+		if (theMessage starts with "what am i") or (theMessage starts with "what's on") then
 			set theMessage to "list"
 		end if
-		if (theMessage starts with "when") or (theMessage starts with "whats due") then
+		if (theMessage starts with "when") or (theMessage starts with "what's due") then
 			set theMessage to "due/1234567890/1234"
 		end if
-		if (theMessage starts with "whats requested") or (theMessage starts with "what are") then
+		if (theMessage starts with "what's requested") or (theMessage starts with "what are") then
 			set theMessage to "holds/1234567890/1234"
 		end if
-		if (theMessage starts with "whats up") then
+		if (theMessage starts with "what's up") then
 			set theMessage to "news"
 		end if
 		if (theMessage starts with "where is") then
 			set theMessage to do shell script "echo " & quoted form of theMessage & " | sed -e 's/[wW]here is/find/'"
 		end if
 		set thePath to encodeMessage(theMessage)
-		if (thePath is "branches") or (thePath is "list") or (thePath is "help") or (thePath is "news") or (thePath starts with "add/") or (thePath starts with "remove/") or (thePath starts with "due/") or (thePath starts with "holds/") or (thePath starts with "find/") or (thePath starts with "status/") or (thePath starts with "now/") then
+		if (thePath is "branches") or (thePath starts with "hours") or (thePath is "list") or (thePath is "help") or (thePath is "news") or (thePath starts with "add/") or (thePath starts with "remove/") or (thePath starts with "due/") or (thePath starts with "holds/") or (thePath starts with "find/") or (thePath starts with "status/") or (thePath starts with "now/") then
 			set theResponse to do shell script "curl http://127.0.0.1:1337/" & thePath
 			if (theResponse is "{}") then
 				return "This aggression will not stand, man."

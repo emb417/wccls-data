@@ -30,5 +30,15 @@ exports.getIds = (response) => {
       const id = href.substr(href.lastIndexOf(".")+1);
       ids.push(id);
   });
+  logger.trace(`ids: ${ ids }`);
+  //check for single result redirect to detail page
+  $('#main').each(function(i, element) {
+      logger.trace(`element attr id`);
+      const id = $(this).find('span').attr('id').split('_')[1];
+      logger.trace(`element attr id: ${ id }`);
+      ids.push(id);
+  });    
+  logger.trace(`ids: ${ ids }`);
+  
   return ids;
 };
