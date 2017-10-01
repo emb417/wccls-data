@@ -3,15 +3,5 @@
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
   "resultsSizeLimit": "5",
   "sortBy": "RELEVANCE",
-  "branchIdMap": {
-    "bcc": 9,
-    "bms": 39,
-    "cmb": 34,
-    "cmc": 11,
-    "hbw": 20,
-    "hsp": 19,
-    "tig": 29,
-    "tua": 31
-  },
   "branchIds": [ 9, 39, 34, 11, 20, 19, 29, 31 ]
 }

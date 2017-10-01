@@ -1,15 +1,5 @@
 {
-  "app": "Branch Hours",
+  "app": "BRANCH HOURS",
   "hoursUrl": "https://catalog.wccls.org/Mobile/Hours?organizationID=",
-  "branchIdMap": {
-    "bcc": 9,
-    "bms": 39,
-    "cmb": 34,
-    "cmc": 11,
-    "hbw": 20,
-    "hsp": 19,
-    "tig": 29,
-    "tua": 31
-  },
   "homeBranchId": "bms"
 }
