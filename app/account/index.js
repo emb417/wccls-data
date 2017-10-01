@@ -4,6 +4,7 @@ const logger = log4js.getLogger();
 const express = require('express');
 const config = require('./config.json');
 const scraper = require('./scraper.js');
+const parser = require('./parser.js');
 const format = require('./format.js');
 
 const app = express.Router( { mergeParams : true } );
@@ -14,19 +15,26 @@ app.use( ( req, res ) => {
     "/due/:user/:pwd": config.itemsOutUrls,
     "/holds/:user/:pwd": config.holdsUrls
   }
+  const parserMap = {
+    "/due/:user/:pwd": parser.dueDates,
+    "/holds/:user/:pwd": parser.holdPositions
+  }
   const context = {
-    barcodeOrUsername: req.params.user,
+    logonCreds: {
+      barcodeOrUsername: req.params.user,
+      password: req.params.pwd,
+      rememberMe: false
+    },
     logonUrl: config.logonUrl,
-    password: req.params.pwd,
-    rememberMe: false,
     urls: urlsMap[req.route.path],
-    routePath: req.route.path
+    parser: parserMap[req.route.path]
   };
 
-  logger.debug( `getting results for msg...` );
-  scraper.scrape( context ).then( results => {
+  logger.debug( `getting results for message...` );
+  scraper.get( context ).then( results => {
 
-    const messageText = results.length > 0 ? format.textMessage(results) : "No Results...";
+    logger.debug( `formatting results for text messsage...` );
+    const messageText = results.length > 0 ? format.textMessage( results ) : "No Results...";
 
     logger.debug( `sending response...` );
     res.send( messageText );

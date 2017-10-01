@@ -2,39 +2,34 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 
 const axios = require('axios');
-const parser = require('./parser.js');
 
-exports.scrape = ( context ) => {
+exports.get = ( context ) => {
   return new Promise( (resolve, reject) => {
+
     logger.debug(`start logon session...`);
     axios.get(`${ context.logonUrl }`)
     .then( response => {
+
+      const c = response.headers['set-cookie'][0];
       logger.debug(`post logon creds...`);
-      let c = '';
-      if (response.headers['set-cookie'] instanceof Array) {
-        c = response.headers['set-cookie'][0];
-      }
       axios({
         method: 'post',
-        url: `${ context.logonUrl }`,
+        url: context.logonUrl,
         headers: {
-          'cookie': `${ c }`
+          'cookie': c
         },
-        data: {
-          barcodeOrUsername: context.barcodeOrUsername,
-          password: context.password,
-          rememberMe: context.rememberMe
-        }
+        data: { ...context.logonCreds }
       })
       .then( response => {
-        let promiseArray = context.urls.map( url => {
+
+        const promiseArray = context.urls.map( url => {
           return axios({
                         method: 'get',
-                        url: `${ url }`,
+                        url,
                         headers: {
-                          'cookie': `${ c }`
+                          'cookie': c
                         }
-                      })
+                      });
         });
 
         logger.debug(`getting items...`);
@@ -44,17 +39,9 @@ exports.scrape = ( context ) => {
           logger.debug(`parsing html...`);
           let items = [];
           results.map( r => {
-            items = context.routePath === "/due/:user/:pwd" ? [ ...items, ...(parser.dueDates( r.data )) ]
-                                                            : [ ...items, ...(parser.holdPositions( r.data )) ];
+            items = [ ...items, ...(context.parser( r.data )) ];
             return;
           });
-          
-          if(context.routePath === "/holds/:user/:pwd"){
-            // sort by position
-            items.sort( (a, b) => {
-              return a.position - b.position;
-            });
-          }
 
           resolve( items );
         })

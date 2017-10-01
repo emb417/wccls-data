@@ -1,10 +1,13 @@
-const log4js = require('log4js');
-const logger = log4js.getLogger();
-
 exports.textMessage = ( items ) => {
-  logger.debug( `formatting results for text messsage...` );
   const delim = "--";
   let formattedData = "";
+
+  if(!items[0].dueDate){
+    // sort by position
+    items.sort( (a, b) => {
+      return a.position - b.position;
+    });
+  }
 
   items.forEach( item => {
     formattedData += formattedData === "" ? `${ delim }` : `\n${ delim }`;
