@@ -1,19 +1,18 @@
 {
-  "app": "MY ACCOUNT",
-  "createHoldUrls": [
-    "https://catalog.wccls.org/Mobile/Holds/Create"
-  ],
-  "holdsUrls": [
-    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=0",
-    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=1",
-    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=2",
-    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=3"
-  ],
-  "itemsOutUrls": [
-    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=0",
-    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=1",
-    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=2",
-    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=3"
-  ],
+  "app": "CREATE HOLD",
+  "branchIdMap": {
+    "bcc": 9,
+    "bms": 39,
+    "cmb": 34,
+    "cmc": 11,
+    "hbw": 20,
+    "hsp": 19,
+    "tig": 29,
+    "tua": 31
+  },  
+  "createHoldUrl": "https://catalog.wccls.org/Mobile/Holds/Create",
+  "createHoldRequestUrl": "https://catalog.wccls.org/Mobile/Holds/CreateRequest",
+  "conditionalResponseUrl": "https://catalog.wccls.org/Mobile/Holds/ConditionalResponse",
+  "itemUrl": "https://catalog.wccls.org/Mobile/Search/Title/1.50.1.",
   "logonUrl": "https://catalog.wccls.org/Mobile/MyAccount/Logon"
 }

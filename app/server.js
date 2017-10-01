@@ -5,7 +5,7 @@ log4js.configure({
     file: { type: 'file', filename: 'logs/server.log' }
   },
   categories: {
-    default: { appenders: ['file','console'], level: 'debug' }
+    default: { appenders: ['file','console'], level: 'trace' }
   }
 });
 const logger = log4js.getLogger();
@@ -18,7 +18,7 @@ const express = require('express');
 const account = require('./account');
 const admin = require('./admin');
 //const cancelHold = require('./account/cancelHold');
-//const createHold = require('./createHold');
+const createHold = require('./createHold');
 const hours = require('./hours');
 const news = require('./availability/news');
 const now = require('./availability/now');
@@ -81,7 +81,7 @@ app.get('/help', ( req, res ) => {
   );
 });
 app.get('/holds/:user/:pwd', account);
-//app.get('/holds/:user/:pwd/add/:item', createHold);
+app.get('/holds/:user/:pwd/add/:item/branch/:branchId', createHold);
 //app.get('/holds/:user/:pwd/cancel/:item', cancelHold);
 app.get('/hours/:branchId', hours);
 app.get('/hours', hours);

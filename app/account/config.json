@@ -4,13 +4,17 @@
     "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=0",
     "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=1",
     "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=2",
-    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=3"
+    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=3",
+    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=4",
+    "https://catalog.wccls.org/Mobile/MyAccount/Holds?page=5"
   ],
   "itemsOutUrls": [
     "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=0",
     "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=1",
     "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=2",
-    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=3"
+    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=3",
+    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=4",
+    "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut?page=5"        
   ],
   "logonUrl": "https://catalog.wccls.org/Mobile/MyAccount/Logon"
 }
