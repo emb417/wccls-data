@@ -38,16 +38,26 @@ exports.holdPositions = ( response ) => {
   $('#main tr').each( (i, element) => {
     // skip header row
     if(i==0){ return; }
+
     let id, title, position = '';
 
-    logger.trace(`element: ${$(element)}`);
     const href = $(element).children().find('a').attr('href');
     id = href.split( '/' )[4];
     title = utils.cleanTitle($(element).find('a').text());
-
     position = $(element).children('td:nth-child(3)').text().replace(/\s*/g,'');
+    // parse X of X text; only the place in line matters
+    // size of queue represents popularity; not relevant for hold position
     position = position.substr(0,position.indexOf('Of'));
 
+    if ( position === "" ){
+      // get status text instead
+      position = $(element).find('span').text();
+
+      if ( position.indexOf('Cancelled') > -1 ){
+        // remove cancels from message
+        return;
+      }
+    }
     items.push({ id, title, position });
   });
 
