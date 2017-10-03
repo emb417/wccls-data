@@ -12,6 +12,9 @@ using terms from application "Messages"
 	
 	on encodeMessage(theMessage)
 		set encodedMessage to theMessage
+		if (encodedMessage starts with "holds ") then
+			set encodedMessage to do shell script "echo " & quoted form of encodedMessage & " | sed -e 's/ /\\//g'"
+		end if
 		set encodedMessage to do shell script "echo " & quoted form of encodedMessage & " | sed -e 's/ /\\//'"
 		if (encodedMessage starts with "due/") or (encodedMessage starts with "holds/") or (encodedMessage starts with "now/") then
 			set encodedMessage to do shell script "echo " & quoted form of encodedMessage & " | sed -e 's/ /\\//'"
@@ -21,18 +24,39 @@ using terms from application "Messages"
 	end encodeMessage
 	
 	on curlOnDemand(theMessage)
-		if (theMessage starts with "what games") or (theMessage starts with "what ps4") then
-			set theMessage to "now/39/ps4"
+		if (theMessage starts with "what ps4 games are at bms") then
+			set theMessage to "now/bms/ps4"
 		end if
-		if (theMessage starts with "what am i") or (theMessage starts with "what's on") then
-			set theMessage to "list"
+		if (theMessage starts with "what blurays are at bms") then
+			set theMessage to "now/bms/bluray"
 		end if
-		if (theMessage starts with "when") or (theMessage starts with "what's due") then
+		if (theMessage starts with "what ps4 games are at bcc") then
+			set theMessage to "now/bcc/ps4"
+		end if		
+		if (theMessage starts with "what blurays are at bcc") then
+			set theMessage to "now/bcc/bluray"
+		end if
+		if (theMessage starts with "what ps4 games are at cmc") then
+			set theMessage to "now/cmc/ps4"
+		end if		
+		if (theMessage starts with "what blurays are at cmc") then
+			set theMessage to "now/cmc/bluray"
+		end if
+		if (theMessage starts with "what ps4 games are at cmb") then
+			set theMessage to "now/cmb/ps4"
+		end if		
+		if (theMessage starts with "what blurays are at cmb") then
+			set theMessage to "now/cmb/bluray"
+		end if		
+		if (theMessage starts with "what's due") then
 			set theMessage to "due/1234567890/1234"
 		end if
-		if (theMessage starts with "what's requested") or (theMessage starts with "what are") then
+		if (theMessage starts with "what's requested") then
 			set theMessage to "holds/1234567890/1234"
 		end if
+		if (theMessage starts with "request hold for") then
+			set theMessage to do shell script "echo " & quoted form of theMessage & " | sed -e 's/[rR]equest hold for/holds 1234567890 1234 add/'"
+		end if		
 		if (theMessage starts with "what's up") then
 			set theMessage to "news"
 		end if
