@@ -1,3 +1,7 @@
+const removeString = ( input ) => {
+  return /^\d+$/.test(input) ? input : "";
+}
+
 exports.textMessage = ( items ) => {
   const delim = "--";
   let formattedData = "";
@@ -5,7 +9,7 @@ exports.textMessage = ( items ) => {
   if(!items[0].dueDate){
     // sort by position
     items.sort( (a, b) => {
-      return a.position - b.position;
+      return removeString(a.position) - removeString(b.position);
     });
   }
 
