@@ -17,8 +17,10 @@ const express = require('express');
 // app modules
 const account = require('./account');
 const admin = require('./admin');
+const branches = require('./branches');
 const cancelHold = require('./cancelHold');
 const createHold = require('./createHold');
+const help = require('./help');
 const hours = require('./hours');
 const news = require('./availability/news');
 const now = require('./availability/now');
@@ -37,49 +39,10 @@ app.use(log4js.connectLogger(logger, { level: 'info' }));
 
 // express routes
 app.get('/add/:keywords', admin);
-app.get('/branches', ( req, res ) => {
-  res.send(
-`BCC: Beaverton City Center (9)
-BMS: Beaverton Murray Scholls (39)
-CMB: Cedar Mills Bethany (34)
-CMC: Cedar Mills Community (11)
-HBW: Hillsboro Brookwood (20)
-HSB: Hillsboro Shute Park (19)
-TIG: Tigard (29)
-TUA: Tualatin (31)`
-  );
-});
+app.get('/branches', branches);
 app.get('/due/:user/:pwd', account);
 app.get('/find/:keywords', status);
-app.get('/help', ( req, res ) => {
-  res.send(
-`The Dude abides:
-
-  1\) "where is keywords" to search for top 5 most relevant results and see availability
-
-  2\) "news" to manually invoke the check of not holdable list status \(only returns in items\)
-
-  3\) "list" to get not holdable list
-
-  4\) "add keywords" to add to not holdable list
-
-  5\) "remove keywords" to remove from not holdable list
-
-  6\) "due barcode pin" to get due dates for items checked out
-
-  7\) "holds barcode pin" to get hold position for items requested
-
-  8\) "now branch keywords" to search for available titles at a branch out of the 500 most popular results
-
-  9\) "branches" to see abbreviation and (id) per branch
-
-  10\) "hours branch" to see hours per branch
-
-  11\) "hours" to see hours for home branch in config
-
-  12\) "help" to see this again`
-  );
-});
+app.get('/help', help);
 app.get('/holds/:user/:pwd', account);
 app.get('/holds/:user/:pwd/cancel/:item', cancelHold);
 app.get('/holds/:user/:pwd/add/:item/branch/:branchId', createHold);
