@@ -5,7 +5,6 @@ const express = require('express');
 
 const config = require('./config.json');
 const scraper = require('./scraper.js');
-//const parser = require('./parser.js');
 
 const app = express.Router( { mergeParams : true } );
 
