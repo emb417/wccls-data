@@ -1,0 +1,31 @@
+{
+  "app": "HELP",
+  "textHelp": [
+    "'where is keywords' to search for top 5 most relevant results and see availability",
+    "'news' to manually invoke the check of not holdable list status (only returns in items)",
+    "'list' to get not holdable list",
+    "'add keywords' to add to not holdable list",
+    "'remove keywords' to remove from not holdable list",
+    "'due barcode pin' to get due dates for items checked out",
+    "'holds barcode pin' to get hold position for items requested",
+    "'now branch keywords' to search for available titles at a branch out of the 500 most popular results",
+    "'branches' to see abbreviation and (id) per branch",
+    "'hours branch' to see hours per branch",
+    "'hours' to see hours for home branch in config",
+    "'help' to see this again"
+  ],
+  "apiHelp": [
+    "'/find/[keywords url encoded]' to search for top 5 most relevant results and see availability",
+    "'/news' to manually invoke the check of not holdable list status (only returns in items)",
+    "'/list' to get not holdable list",
+    "'/add/[keywords url encoded]' to add to not holdable list",
+    "'/remove/[keywords url encoded]' to remove from not holdable list",
+    "'/due/[barcode]/[pin]' to get due dates for items checked out",
+    "'/holds/[barcode]/[pin]' to get hold position for items requested",
+    "'/now/[branch id]/[keywords url encoded]' to search for available titles at a branch out of the 500 most popular results",
+    "'/branches' to see abbreviation and (id) per branch",
+    "'/hours/[branch id]' to see hours per branch",
+    "'/hours' to see hours for home branch in config",
+    "'/help/api' to see this again"
+  ]
+}
