@@ -1,0 +1,6 @@
+{
+  "app": "CANCEL HOLD",
+  "baseUrl": "https://catalog.wccls.org",
+  "itemsOutUrl": "https://catalog.wccls.org/Mobile/MyAccount/ItemsOut",
+  "logonUrl": "https://catalog.wccls.org/Mobile/MyAccount/Logon"
+}
