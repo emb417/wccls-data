@@ -1,5 +1,5 @@
 {
-  "app": "AVAILABILITY STATUS",
+  "app": "FIND AVAILABILITY",
   "baseUrl": "https://catalog.wccls.org/Mobile/Search",
   "resultsSizeLimit": "5",
   "sortBy": "RELEVANCE",

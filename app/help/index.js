@@ -16,29 +16,29 @@ app.use( ( req, res ) => {
   res.send(
 `The Dude abides:
 
-  1\) "where is keywords" to search for top 5 most relevant results and see availability
+  1a\) "where is keywords" to search for top 5 most relevant results and see availability
+  1b\) "request hold for itemId branch branchId" to get place hold for an item
 
-  2\) "news" to manually invoke the check of not holdable list status \(only returns in items\)
+  2\) "now branch keywords" to search for available titles at a branch out of the 500 most popular results
 
-  3\) "list" to get not holdable list
+  3a\) "list" to get not holdable list
+  3b\) "add keywords" to add to not holdable list
+  3c\) "remove keywords" to remove from not holdable list
 
-  4\) "add keywords" to add to not holdable list
+  4a\) "what's requested" to get hold position for items requested
+  4b\) "cancel hold for holdItemId" to cancel hold for an item
 
-  5\) "remove keywords" to remove from not holdable list
+  5a\) "hours branch" to see hours per branch
+  5b\) "hours" to see hours for home branch in config
 
-  6\) "due barcode pin" to get due dates for items checked out
+  6a\) "what's due" to get due dates for items checked out
+  6b\) "renew dueItemId" to get due dates for items checked out
 
-  7\) "holds barcode pin" to get hold position for items requested
+  7\) "news" to manually invoke the check of not holdable list status \(only returns in items\)
 
-  8\) "now branch keywords" to search for available titles at a branch out of the 500 most popular results
+  8\) "branches" to see abbreviation and (id) per branch
 
-  9\) "branches" to see abbreviation and (id) per branch
-
-  10\) "hours branch" to see hours per branch
-
-  11\) "hours" to see hours for home branch in config
-
-  12\) "help" to see this again`
+  9\) "help" to see this again`
   );
 
 });
