@@ -56,6 +56,9 @@ using terms from application "Messages"
 		end if
 		if (theMessage starts with "request hold for") then
 			set theMessage to do shell script "echo " & quoted form of theMessage & " | sed -e 's/[rR]equest hold for/holds 1234567890 1234 add/'"
+		end if
+		if (theMessage starts with "cancel hold for") then
+			set theMessage to do shell script "echo " & quoted form of theMessage & " | sed -e 's/[cC]ancel hold for/holds 1234567890 1234 cancel/'"
 		end if		
 		if (theMessage starts with "what's up") then
 			set theMessage to "news"
