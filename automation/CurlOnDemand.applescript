@@ -48,13 +48,13 @@ using terms from application "Messages"
 		if (theMessage starts with "what blurays are at cmb") then
 			set theMessage to "now/cmb/bluray"
 		end if
-		if (theMessage starts with "what's due") then
+		if (theMessage starts with "what’s due" and name of theBuddy is "+1 (555) 123-4567") or (theMessage starts with "what's due" and name of theBuddy is "+1 (555) 123-4567") then
 			set theMessage to "due/1234567890/1234"
 		end if
 		if (theMessage starts with "renew") then
 		set theMessage to do shell script "echo " & quoted form of theMessage & " | sed -e 's/[rR]enew/due 1234567890 1234 renew/'"
 		end if
-		if (theMessage starts with "what's requested") then
+		if (theMessage starts with "what’s requested" and name of theBuddy is "+1 (555) 123-4567") or (theMessage starts with "what's requested" and name of theBuddy is "+1 (555) 123-4567") then
 			set theMessage to "holds/1234567890/1234"
 		end if
 		if (theMessage starts with "request hold for") then
@@ -63,7 +63,7 @@ using terms from application "Messages"
 		if (theMessage starts with "cancel hold for") then
 			set theMessage to do shell script "echo " & quoted form of theMessage & " | sed -e 's/[cC]ancel hold for/holds 1234567890 1234 cancel/'"
 		end if
-		if (theMessage starts with "what's up") then
+		if (theMessage starts with "what's up") or (theMessage starts with "what’s up") then
 			set theMessage to "news"
 		end if
 		if (theMessage starts with "where is") then
