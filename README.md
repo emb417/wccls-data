@@ -4,15 +4,16 @@ Collecting availability data from [Washington County Cooperative Library Service
 
 ## Start Server
 
-1. install node 8.4.0
-1. git clone
-1. npm i
-1. npm start
+1. git clone git@github.com:emb417/wccls-data.git
+1. nvm install 8.4.0
+1. npm i -g yarn
+1. yarn
+1. yarn start
   * Server creates needed logs dir on start
     * app logs to logs/server.log
   * listens on port 1337
   * uses nodemon to reload with changes in app dir 
-1. curl http://127.0.0.1:1337/status/wargames to test
+1. curl http://127.0.0.1:1337/find/wargames to test
 
 ## Automation Setup
 Automation files are included for Mac OS X.
